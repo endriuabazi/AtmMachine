@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 // get data from this URL!
-const atmURL = "https://localhost:7027/WeatherForecast";
+const atmURL = "https://localhost:7027/api/client/";
 
 var request = new XMLHttpRequest();
 request.onreadystatechange = () => {

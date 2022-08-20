@@ -17,10 +17,13 @@ const actions = ({navigation}) => {
         />
 
 
-</SafeAreaView>
-     
-      <><Text style={{ color: 'white', fontSize: 30, top: -100 }}>Welcome <Text style={{ color: '#EAB543', fontSize: 30, top: -100 }}>User !</Text></Text>
-        
+      </SafeAreaView>
+      
+      < SafeAreaView>
+      <Text style={{ color: 'white', fontSize: 30, top: -100 }}>Welcome <Text style={{ color: '#EAB543', fontSize: 30, top: -100 }}>User !</Text></Text>
+      </SafeAreaView>
+      <>
+      
         {/* Balanca */}
 
         <SafeAreaView style={styles.balance}>
@@ -38,13 +41,7 @@ const actions = ({navigation}) => {
    
         < SafeAreaView style={styles.up}>
 
-        {/* <TouchableOpacity
-          nextFocusForward={ 1}
-           style={styles.list}
-            onPress={() => { navigation.navigate("connect") }} 
-            >
-        <Text>Connect</Text>
-              </TouchableOpacity>  */}
+
           
 
         <TouchableOpacity
