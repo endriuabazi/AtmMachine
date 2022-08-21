@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
+import { useRoute } from "@react-navigation/native";
 import React from "react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +10,6 @@ import {
   TextInput,
   SafeAreaView,
   Image,
-  TouchableOpacity,
 } from "react-native";
 
 const login = ({ navigation }) => {
@@ -29,8 +29,12 @@ const login = ({ navigation }) => {
     )
       .then((response) => {
         if (response.status === 200) {
-          navigation.navigate("profile");
           console.log(response);
+          console.log(response.json());
+
+          navigation.navigate("profile", {
+            usernameValue: usernameValue,
+          });
         } else {
           console.log(response);
           alert("Something went wrog!");
@@ -41,6 +45,7 @@ const login = ({ navigation }) => {
         console.error(error);
       });
   };
+
   return (
     <SafeAreaView style={styles.pinContainer}>
       <Image style={{ top: -150 }} source={require("../assets/emblem.png")} />
