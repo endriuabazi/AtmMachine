@@ -11,23 +11,21 @@ import {
   FlatList,
 } from "react-native";
 
-import { id } from "./login";
-
 const profile = ({ navigation }) => {
   // var dicka = id;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const name = useNavigationParam(id);
-  // const url = `https://localhost:7027/api/client/GetAccountsFromClients?id=${dicka}`;
-  // `https://localhost:7027/api/client/GetAccountsFromClients?id=2`
   const route = useRoute();
-
+  const [accID, setAccID] = useState([]);
   useEffect(() => {
     fetch(
       `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
     )
       .then((response) => response.json())
-      .then((json) => setData(json))
+      .then((json) => {
+        setAccID(json.account_id);
+        setData(json);
+      })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   }, []);
@@ -37,59 +35,57 @@ const profile = ({ navigation }) => {
         {/* Emblema */}
         <Image style={{ top: -180 }} source={require("../assets/emblem.png")} />
       </SafeAreaView>
-      <>
-        <Text style={{ color: "white", fontSize: 30, top: -100 }}>
-          Welcome{" "}
-          <Text style={{ color: "#EAB543", fontSize: 30, top: -100 }}>
-            @ {route.params.usernameValue}
-          </Text>
+
+      <Text style={{ color: "white", fontSize: 30, top: -100 }}>
+        Welcome{" "}
+        <Text style={{ color: "#EAB543", fontSize: 30, top: -100 }}>
+          @{route.params.usernameValue}
         </Text>
-        <Text style={{ color: "white", fontSize: 25 }}>Accouts:</Text>
+      </Text>
+      <Text style={{ color: "white", fontSize: 25 }}>Accouts:</Text>
 
-        <SafeAreaView>
-          {loading ? (
-            <Text>Loading ...</Text>
-          ) : (
-            data.flatMap((account) => (
-              <SafeAreaView>
-                <TouchableOpacity
-                  nextFocusForward={1}
-                  style={styles.list}
-                  onPress={() => {
-                    navigation.navigate("actions");
-                  }}
-                >
-                  <Text style={{ color: "white", fontSize: 18 }}>
-                    {account.account_name}
-                  </Text>
-                </TouchableOpacity>
-              </SafeAreaView>
-            ))
-          )}
-        </SafeAreaView>
+      <SafeAreaView>
+        {loading ? (
+          <Text>Loading ...</Text>
+        ) : (
+          data.flatMap((account) => (
+            <TouchableOpacity
+              key={account.account_id}
+              nextFocusForward={1}
+              style={styles.list}
+              onPress={() => {
+                navigation.navigate("actions", { key: account.account_id });
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 18 }}>
+                {account.account_name}
+              </Text>
+            </TouchableOpacity>
+          ))
+        )}
+      </SafeAreaView>
 
-        <SafeAreaView style={styles.up}>
+      <SafeAreaView style={styles.up}>
+        <Button
+          touchSoundDisabled
+          color="grey"
+          title="Edit Profile"
+          onPress={() => {
+            navigation.navigate("editProfile", { id: accID });
+          }}
+        />
+
+        <SafeAreaView style={styles.left}>
           <Button
             touchSoundDisabled
             color="grey"
-            title="Edit Profile"
+            title="Change Pin"
             onPress={() => {
-              navigation.navigate("editProfile");
+              navigation.navigate("changePin", { id2: accID });
             }}
           />
-
-          <SafeAreaView style={styles.left}>
-            <Button
-              touchSoundDisabled
-              color="grey"
-              title="Change Pin"
-              onPress={() => {
-                navigation.navigate("changePin");
-              }}
-            />
-          </SafeAreaView>
         </SafeAreaView>
-      </>
+      </SafeAreaView>
     </SafeAreaView>
   );
 };

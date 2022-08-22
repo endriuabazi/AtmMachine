@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-material/core": "^1.3.7",
     "@react-navigation/native": "^6.0.11",
@@ -23,10 +24,10 @@
     "react-native": "0.68.2",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-gesture-handler": "~2.2.1",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-screens": "~3.11.1",
     "react-native-smooth-pincode-input": "^1.0.9",
-    "react-native-web": "0.17.7",
-    "@react-native-async-storage/async-storage": "~1.17.3"
+    "react-native-web": "0.17.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

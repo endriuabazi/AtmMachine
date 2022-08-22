@@ -1,142 +1,195 @@
+import React, { useEffect, useState } from "react";
+import { useRoute } from "@react-navigation/native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 
-import React from 'react';
-import { StyleSheet, Text, View,Image,TouchableOpacity,SafeAreaView } from 'react-native';
+const actions = ({ navigation }) => {
+  // const movieURL = `https://localhost:7027/api/account/${route.params.key}`;
+  const [currency, setcurrency] = useState([]);
+  const [accName, setACCName] = useState([]);
+  const [balance, setbalance] = useState([]);
+  const [accID, setAccID] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const route = useRoute();
 
-const actions = ({navigation}) => {
+  useEffect(() => {
+    fetch(`https://localhost:7027/api/account/${route.params.key}`)
+      .then((response) => response.json()) // get response, convert to json
+      .then((json) => {
+        setcurrency(json.currency);
+        setACCName(json.account_name);
+        setbalance(json.balance);
+        setAccID(json.account_id);
+
+        // setDescription(json.description);
+      })
+      .catch((error) => alert(error)) // display errors
+      .finally(() => setLoading(false)); // change loading state
+  }, []);
+
+  // Also get call asynchronous function
+  async function getAccasync() {
+    try {
+      let response = await fetch(
+        `https://localhost:7027/api/account/${route.params.key}`
+      );
+      let json = await response.json();
+
+      setACCName(json.account_name);
+      setbalance(json.balance);
+      setcurrency(json.currency);
+      setAccID(json.account_id);
+      // setDescription(json.description);
+      setLoading(false);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
-    
-    
     <SafeAreaView style={styles.pinContainer}>
-
       <SafeAreaView>
-         {/* Emblema */}
-         <Image
-        style={{top:-150}}
-        source={require('../assets/emblem.png')}
-        
-        />
-
-
+        {/* Emblema */}
+        <Image source={require("../assets/emblem.png")} />
       </SafeAreaView>
-      
-      < SafeAreaView>
-      <Text style={{ color: 'white', fontSize: 30, top: -100 }}>Welcome <Text style={{ color: '#EAB543', fontSize: 30, top: -100 }}>User !</Text></Text>
-      </SafeAreaView>
-      <>
-      
-        {/* Balanca */}
 
-        <SafeAreaView style={styles.balance}>
-          <Text>
-            <Text style={{ color: 'white', fontSize: 22, top: -15 }}>Balance :   <Text style={{ color: '#EAB543', fontSize: 30}}>$ 320468</Text></Text>
-           
-
+      {loading ? (
+        <Text>Loading ...</Text>
+      ) : (
+        <SafeAreaView style={styles.welcome}>
+          <Text style={{ color: "white", fontSize: 30, top: -300 }}>
+            Account:{" "}
+            <Text style={{ color: "#EAB543", fontSize: 30, top: -200 }}>
+              {accName}!
+            </Text>
           </Text>
-        
-
         </SafeAreaView>
+      )}
+      {/* Balanca */}
 
-        <Text style={{ color: 'white', fontSize: 20}}>Choose one of the options below:</Text>
-    
-   
-        < SafeAreaView style={styles.up}>
+      <SafeAreaView style={styles.balance}>
+        {loading ? (
+          <Text>Loading ...</Text>
+        ) : (
+          <Text>
+            <Text style={{ color: "white", fontSize: 22, top: 12 }}>
+              Balance :{" "}
+              <Text style={{ color: "#EAB543", fontSize: 30 }}>
+                {currency} {balance}
+              </Text>
+            </Text>
+          </Text>
+        )}
+      </SafeAreaView>
 
+      <Text style={{ color: "white", fontSize: 20 }}>
+        Choose one of the options below:
+      </Text>
 
-          
-
+      <SafeAreaView style={styles.up}>
         <TouchableOpacity
-          nextFocusForward={ 1}
-           style={styles.list}
-            onPress={() => { navigation.navigate("withdraw") }} 
-            >
-        <Text style={{ color: 'white', fontSize: 18}}>Withdraw</Text>
-              </TouchableOpacity> 
-              <TouchableOpacity
-          nextFocusForward={ 1}
-           style={styles.list}
-            onPress={() => { navigation.navigate("deposit") }} 
-            >
-        <Text style={{ color: 'white', fontSize: 18}}>Deposit</Text>
-              </TouchableOpacity> 
-              <TouchableOpacity
-          nextFocusForward={ 1}
-           style={styles.list}
-            onPress={() => { navigation.navigate("transactions") }} 
-            >
-        <Text style={{ color: 'white', fontSize: 18}}>Transactions History</Text>
-        </TouchableOpacity> 
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("withdraw", {
+              id: accID,
+            });
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>Withdraw</Text>
+        </TouchableOpacity>
         <TouchableOpacity
-          nextFocusForward={ 1}
-           style={styles.list}
-            onPress={() => { navigation.navigate("pay") }} 
-            >
-        <Text style={{ color: 'white', fontSize: 18}}>Pay</Text>
-        </TouchableOpacity> 
-        
-          
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("deposit", {
+              id: accID,
+            });
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>Deposit</Text>
+        </TouchableOpacity>
         <TouchableOpacity
-          nextFocusForward={ 1}
-           style={styles.list}
-            onPress={() => { navigation.navigate("profile") }} 
-          >
-            <Text style={{ color: 'white', fontSize: 18}}>Go Back</Text>
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("transactions");
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>
+            Transactions History
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("pay");
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>Pay</Text>
+        </TouchableOpacity>
 
-            </TouchableOpacity>
-        </SafeAreaView>
-      
-    
-  
-      </>
+        {/* <TouchableOpacity
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("profile");
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>Go Back</Text>
+        </TouchableOpacity> */}
+      </SafeAreaView>
     </SafeAreaView>
   );
-}
+};
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: '#192a56',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white'
-   
+    backgroundColor: "#192a56",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
   },
-  left:{
+  left: {
     left: 50,
-    fontSize:30,
-    
+    fontSize: 30,
   },
 
   up: {
     top: 20,
-  
   },
   down: {
-    
     fontSize: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     top: 60,
-   
-
   },
-  left2:{
+  left2: {
     left: 50,
-    fontSize:30,
-    
+    fontSize: 30,
   },
   list: {
     alignItems: "center",
     backgroundColor: "#EAB543",
     padding: 10,
     borderBottomEndRadius: 15,
-    marginBottom:5
- 
+    marginBottom: 5,
   },
 
   balance: {
-    left: -60,
+    // left: -60,
     top: -40,
-  
-  }
+  },
+  welcome: {
+    top: -100,
+  },
 });
 
 export default actions;

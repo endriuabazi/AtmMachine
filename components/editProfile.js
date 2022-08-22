@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,20 +9,50 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-
-// fetch('https://mywebsite.com/endpoint/', {
-//   method: 'POST',
-//   headers: {
-//     Accept: 'application/json',
-//     'Content-Type': 'application/json'
-//   },
-//   body: JSON.stringify({
-//     firstParam: 'yourValue',
-//     secondParam: 'yourOtherValue'
-//   })
-// });
-
+import { NavigationHelpersContext, useRoute } from "@react-navigation/native";
 const editProfile = ({ navigation }) => {
+  const [phone, setPhone] = useState(null);
+  const route = useRoute();
+  const [address, setAdd] = useState(null);
+  const [usernameValue, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const handlerequest = () => {
+    return fetch(
+      `https://localhost:7027/api/client/editProfile?id=${id}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          console.log(response.json());
+          alert("Edit is Done!");
+        } else {
+          console.log(response);
+
+          alert("Something went wrog!");
+        }
+      })
+
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    fetch(
+      `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
+    )
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <SafeAreaView style={styles.pinContainer}>
       <Image style={{ top: -150 }} source={require("../assets/emblem.png")} />
@@ -32,26 +62,27 @@ const editProfile = ({ navigation }) => {
         <TextInput
           style={styles.pininput}
           placeholder="username!"
-          // onChangeText={newText => setText(newText)}
+          onChangeText={(value) => setUsername(value)}
+          value={usernameValue}
         />
         <Text style={styles.text1}>Please enter your new address!</Text>
         <TextInput
           style={styles.pininput}
           placeholder="address!"
-          // onChangeText={newText => setText(newText)}
+          onChangeText={(value) => setAdd(value)}
         />
         <Text style={styles.text1}>Please enter your new phone!</Text>
         <TextInput
           style={styles.pininput}
           placeholder="phone!"
-          // onChangeText={newText => setText(newText)}
+          onChangeText={(value) => setPhone(value)}
         />
 
         <Text style={styles.text1}>Please enter your new email !</Text>
         <TextInput
           style={styles.pininput}
           placeholder="email!"
-          // onChangeText={newText => setText(newText)}
+          onChangeText={(value) => setEmail(value)}
         />
       </SafeAreaView>
 
@@ -59,10 +90,8 @@ const editProfile = ({ navigation }) => {
         <Button
           touchSoundDisabled
           color="grey"
-          title="Change Pin"
-          onPress={() => {
-            navigation.navigate("");
-          }}
+          title="Update Profile"
+          onPress={handlerequest}
         />
       </SafeAreaView>
       <StatusBar style="auto" />
