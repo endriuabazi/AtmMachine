@@ -14,6 +14,8 @@ const profile = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   const [accID, setAccID] = useState([]);
+  const [clientID, setClientID] = useState([]);
+  var us = route.params.usernameValue;
   useEffect(() => {
     fetch(
       `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
@@ -21,6 +23,7 @@ const profile = ({ navigation }) => {
       .then((response) => response.json())
       .then((json) => {
         setAccID(json.account_id);
+        setClientID(json.client_id);
         setData(json);
       })
       .catch((error) => console.log(error))
@@ -68,7 +71,9 @@ const profile = ({ navigation }) => {
           color="grey"
           title="Edit Profile"
           onPress={() => {
-            navigation.navigate("editProfile", { ifd: accID });
+            navigation.navigate("editProfile", {
+              id3: us,
+            });
           }}
         />
 
@@ -78,7 +83,9 @@ const profile = ({ navigation }) => {
             color="grey"
             title="Change Pin"
             onPress={() => {
-              navigation.navigate("changePin", { id2: accID });
+              navigation.navigate("changePin", {
+                id2: us,
+              });
             }}
           />
         </SafeAreaView>

@@ -48,8 +48,7 @@ const transaction = () => {
               }}
             >
               <Text style={{ color: "white", fontSize: 18 }}>
-                {account.transaction_type} ,Time: {account.transaction_date} ,
-                Amount: {account.amount}
+                {account.transaction_type} , Amount: {account.amount}
               </Text>
             </TouchableOpacity>
           ))

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
-  View,
   Button,
   TextInput,
   SafeAreaView,
@@ -13,11 +12,12 @@ import { useRoute } from "@react-navigation/native";
 
 const changePin = ({ navigation }) => {
   const [pinValue, setPin] = useState(null);
-  const [rePinValue, resetPin] = useState(null);
+  const [pinValue2, resetPin] = useState(null);
   const route = useRoute();
+
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/client/changePin?id=${route.params.id2}&pin1=${pinValue}&pin2=${rePinValue}`,
+      `https://localhost:7027/api/client/changePin?username=${route.params.id2}&pin1=${pinValue}&pin2=${pinValue2}`,
       {
         method: "PUT",
         headers: {
@@ -30,7 +30,7 @@ const changePin = ({ navigation }) => {
         if (response.status === 200) {
           console.log(response);
           console.log(response.json());
-
+          alert("Pin Changed Successfully");
           navigation.navigate("login");
         } else {
           console.log(response);
@@ -46,14 +46,13 @@ const changePin = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.pinContainer}>
       <Image style={{ top: -150 }} source={require("../assets/emblem.png")} />
-
       <SafeAreaView>
         <Text style={styles.text1}>Please enter your new pin !</Text>
         <TextInput
           style={styles.pininput}
           placeholder="PIN!"
           onChangeText={(value) => setPin(value)}
-          defaultValue={Number}
+          // defaultValue={Number}
           secureTextEntry={true}
           password={true}
           keyboardType="numeric"
@@ -65,24 +64,14 @@ const changePin = ({ navigation }) => {
           style={styles.pininput}
           placeholder="PIN!"
           onChangeText={(value) => resetPin(value)}
-          defaultValue={Number}
+          // defaultValue={Number}
           secureTextEntry={true}
           password={true}
           keyboardType="numeric"
           maxLength={4}
         />
       </SafeAreaView>
-
-      <SafeAreaView style={styles.hapsira}>
-        <Button
-          touchSoundDisabled
-          color="grey"
-          title="Change Pin"
-          onPress={() => {
-            <Button title="Login" onPress={handlerequest} />;
-          }}
-        />
-      </SafeAreaView>
+      <Button title="Login" onPress={handlerequest} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );

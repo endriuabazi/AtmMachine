@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="language">
+      <Stack.Navigator initialRouteName="login">
         <Stack.Screen name="login" component={login} />
         <Stack.Screen name="profile" component={profile} />
         <Stack.Screen name="withdraw" component={withdraw} />

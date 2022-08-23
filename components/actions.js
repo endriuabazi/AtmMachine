@@ -128,7 +128,7 @@ const actions = ({ navigation }) => {
             Transactions History
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           nextFocusForward={1}
           style={styles.list}
           onPress={() => {
@@ -147,7 +147,7 @@ const actions = ({ navigation }) => {
           }}
         >
           <Text style={{ color: "white", fontSize: 18 }}>Send</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </SafeAreaView>
     </SafeAreaView>
   );

@@ -19,7 +19,7 @@ const editProfile = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/client/editProfile?id=${route.params.id}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
+      `https://localhost:7027/api/client/editProfile?username=${route.params.id3}&newusername=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
       {
         method: "PUT",
         headers: {
