@@ -119,7 +119,9 @@ const actions = ({ navigation }) => {
           nextFocusForward={1}
           style={styles.list}
           onPress={() => {
-            navigation.navigate("transactions");
+            navigation.navigate("transaction", {
+              id3: accID,
+            });
           }}
         >
           <Text style={{ color: "white", fontSize: 18 }}>
@@ -130,21 +132,22 @@ const actions = ({ navigation }) => {
           nextFocusForward={1}
           style={styles.list}
           onPress={() => {
-            navigation.navigate("pay");
+            navigation.navigate("transaction", {
+              id: accID,
+            });
           }}
         >
           <Text style={{ color: "white", fontSize: 18 }}>Pay</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
+        <TouchableOpacity
           nextFocusForward={1}
           style={styles.list}
           onPress={() => {
-            navigation.navigate("profile");
+            navigation.navigate("pay");
           }}
         >
-          <Text style={{ color: "white", fontSize: 18 }}>Go Back</Text>
-        </TouchableOpacity> */}
+          <Text style={{ color: "white", fontSize: 18 }}>Send</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
   );

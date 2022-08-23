@@ -7,12 +7,9 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  ActivityIndicator,
-  FlatList,
 } from "react-native";
 
 const profile = ({ navigation }) => {
-  // var dicka = id;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
@@ -39,7 +36,7 @@ const profile = ({ navigation }) => {
       <Text style={{ color: "white", fontSize: 30, top: -100 }}>
         Welcome{" "}
         <Text style={{ color: "#EAB543", fontSize: 30, top: -100 }}>
-          @{route.params.usernameValue}
+          {route.params.usernameValue}!
         </Text>
       </Text>
       <Text style={{ color: "white", fontSize: 25 }}>Accouts:</Text>
@@ -71,7 +68,7 @@ const profile = ({ navigation }) => {
           color="grey"
           title="Edit Profile"
           onPress={() => {
-            navigation.navigate("editProfile", { id: accID });
+            navigation.navigate("editProfile", { ifd: accID });
           }}
         />
 

@@ -3,22 +3,23 @@ import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
-  View,
   Button,
   TextInput,
   SafeAreaView,
   Image,
 } from "react-native";
-import { NavigationHelpersContext, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 const editProfile = ({ navigation }) => {
+  const [data, setData] = useState([]);
   const [phone, setPhone] = useState(null);
   const route = useRoute();
+  const [loading, setLoading] = useState(true);
   const [address, setAdd] = useState(null);
   const [usernameValue, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/client/editProfile?id=${id}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
+      `https://localhost:7027/api/client/editProfile?id=${route.params.id}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
       {
         method: "PUT",
         headers: {
@@ -32,6 +33,7 @@ const editProfile = ({ navigation }) => {
           console.log(response);
           console.log(response.json());
           alert("Edit is Done!");
+          navigation.navigate("login");
         } else {
           console.log(response);
 
@@ -43,15 +45,15 @@ const editProfile = ({ navigation }) => {
         console.error(error);
       });
   };
-  useEffect(() => {
-    fetch(
-      `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
-    )
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((json) => setData(json))
+  //     .catch((error) => console.log(error))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   return (
     <SafeAreaView style={styles.pinContainer}>
@@ -63,7 +65,6 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="username!"
           onChangeText={(value) => setUsername(value)}
-          value={usernameValue}
         />
         <Text style={styles.text1}>Please enter your new address!</Text>
         <TextInput
