@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 
 const profile = ({ navigation }) => {
@@ -23,12 +24,13 @@ const profile = ({ navigation }) => {
       .then((response) => response.json())
       .then((json) => {
         setAccID(json.account_id);
-        setClientID(json.client_id);
+
         setData(json);
       })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   }, []);
+
   return (
     <SafeAreaView style={styles.pinContainer}>
       <SafeAreaView>
@@ -46,7 +48,7 @@ const profile = ({ navigation }) => {
 
       <SafeAreaView>
         {loading ? (
-          <Text>Loading ...</Text>
+          <ActivityIndicator />
         ) : (
           data.flatMap((account) => (
             <TouchableOpacity

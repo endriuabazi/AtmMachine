@@ -15,6 +15,7 @@ const deposit = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
+  var depositParamID = route.params.id;
 
   const handlerequest = () => {
     return fetch(
@@ -32,7 +33,14 @@ const deposit = ({ navigation }) => {
           console.log(response);
           console.log(response.json());
           alert("Deposit successful!");
-          navigation.navigate("login");
+          // navigation.navigate("actions", {
+          //   depositParamID: depositParamID,
+          // });
+          navigation.push("actions", {
+            depositParamID: depositParamID,
+          });
+          // route.params.onReturn(depositParamID);
+          // navigation.goBack();
         } else {
           console.log(response);
           alert("Something went wrog!");
@@ -52,8 +60,8 @@ const deposit = ({ navigation }) => {
         You want to deposit? Here is the right place to do it!
       </Text>
       <Image
-        style={{ width: 150, height: 150, top: -50 }}
-        source={require("../assets/istockphoto-929921700-170667a.jpg")}
+        style={{ width: 150, height: 150, top: 13 }}
+        source={require("../assets/DEPOSIT-METHOD.png")}
       />
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Please enter the amount !

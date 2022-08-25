@@ -7,10 +7,10 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 
 const actions = ({ navigation }) => {
-  // const movieURL = `https://localhost:7027/api/account/${route.params.key}`;
   const [currency, setcurrency] = useState([]);
   const [accName, setACCName] = useState([]);
   const [balance, setbalance] = useState([]);
@@ -19,6 +19,9 @@ const actions = ({ navigation }) => {
   const route = useRoute();
 
   useEffect(() => {
+    if (route.params.key == null) {
+      route.params.key = route.params.depositParamID;
+    }
     fetch(`https://localhost:7027/api/account/${route.params.key}`)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
@@ -26,31 +29,10 @@ const actions = ({ navigation }) => {
         setACCName(json.account_name);
         setbalance(json.balance);
         setAccID(json.account_id);
-
-        // setDescription(json.description);
       })
       .catch((error) => alert(error)) // display errors
       .finally(() => setLoading(false)); // change loading state
   }, []);
-
-  // Also get call asynchronous function
-  async function getAccasync() {
-    try {
-      let response = await fetch(
-        `https://localhost:7027/api/account/${route.params.key}`
-      );
-      let json = await response.json();
-
-      setACCName(json.account_name);
-      setbalance(json.balance);
-      setcurrency(json.currency);
-      setAccID(json.account_id);
-      // setDescription(json.description);
-      setLoading(false);
-    } catch (error) {
-      alert(error);
-    }
-  }
 
   return (
     <SafeAreaView style={styles.pinContainer}>
@@ -60,7 +42,7 @@ const actions = ({ navigation }) => {
       </SafeAreaView>
 
       {loading ? (
-        <Text>Loading ...</Text>
+        <ActivityIndicator />
       ) : (
         <SafeAreaView style={styles.welcome}>
           <Text style={{ color: "white", fontSize: 30, top: -300 }}>
@@ -75,7 +57,7 @@ const actions = ({ navigation }) => {
 
       <SafeAreaView style={styles.balance}>
         {loading ? (
-          <Text>Loading ...</Text>
+          <ActivityIndicator />
         ) : (
           <Text>
             <Text style={{ color: "white", fontSize: 22, top: 12 }}>
@@ -128,6 +110,19 @@ const actions = ({ navigation }) => {
             Transactions History
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("", {
+              id: accID,
+            });
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>Exit</Text>
+        </TouchableOpacity>
+
         {/* <TouchableOpacity
           nextFocusForward={1}
           style={styles.list}

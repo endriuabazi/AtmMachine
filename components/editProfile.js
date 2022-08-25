@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 const editProfile = ({ navigation }) => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [phone, setPhone] = useState(null);
   const route = useRoute();
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ const editProfile = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/client/editProfile?username=${route.params.id3}&newusername=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
+      `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.id3}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
       {
         method: "PUT",
         headers: {
@@ -47,9 +47,16 @@ const editProfile = ({ navigation }) => {
   };
   // useEffect(() => {
   //   fetch(
-  //     `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
+  //     `https://localhost:7027/api/client/GetClientsbyUsername?username=${route.params.id3}`
   //   )
-  //     .then((response) => response.json())
+  //   .then((json) => {
+  //     setcurrency(json.currency);
+  //     setACCName(json.account_name);
+  //     setbalance(json.balance);
+  //     setAccID(json.account_id);
+
+  //     // setDescription(json.description);
+  //   })
   //     .then((json) => setData(json))
   //     .catch((error) => console.log(error))
   //     .finally(() => setLoading(false));

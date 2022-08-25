@@ -69,7 +69,12 @@ const login = ({ navigation }) => {
         maxLength={4}
       />
       <View style={styles.hapsira}>
-        <Button title="Login" onPress={handlerequest} />
+        <Button
+          touchSoundDisabled
+          color="grey"
+          title="Login"
+          onPress={handlerequest}
+        />
       </View>
       <StatusBar style="auto" />
     </SafeAreaView>

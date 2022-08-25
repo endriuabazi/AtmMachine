@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 
 const transaction = () => {
@@ -36,7 +37,7 @@ const transaction = () => {
 
       <SafeAreaView>
         {loading ? (
-          <Text>Loading ...</Text>
+          <ActivityIndicator />
         ) : (
           data.flatMap((account) => (
             <TouchableOpacity

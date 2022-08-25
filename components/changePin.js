@@ -34,7 +34,8 @@ const changePin = ({ navigation }) => {
           navigation.navigate("login");
         } else {
           console.log(response);
-          alert("Something went wrog!");
+
+          alert("Passwords doesn't match!");
         }
       })
 

@@ -15,7 +15,7 @@ const withdraw = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
-
+  var depositParamID = route.params.id;
   const handlerequest = () => {
     return fetch(
       `https://localhost:7027/api/account/withdraw?id=${route.params.id}&amount=${amount}`,
@@ -32,7 +32,9 @@ const withdraw = ({ navigation }) => {
           console.log(response);
           console.log(response.json());
           alert("Withdraw successful!");
-          navigation.navigate("login");
+          navigation.push("actions", {
+            depositParamID: depositParamID,
+          });
         } else {
           console.log(response);
           alert("Something went wrog!");
@@ -52,7 +54,7 @@ const withdraw = ({ navigation }) => {
         You want to withdraw? Here is the right place to do it!
       </Text>
       <Image
-        style={{ width: 150, height: 150, top: -50 }}
+        style={{ width: 150, height: 150, top: 13 }}
         source={require("../assets/istockphoto-929921700-170667a.jpg")}
       />
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
