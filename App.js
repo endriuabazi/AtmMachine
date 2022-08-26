@@ -9,7 +9,7 @@ import deposit from "./components/deposit";
 import language from "./components/language";
 import actions from "./components/actions";
 import transaction from "./components/transaction";
-import pay from "./components/pay";
+import send from "./components/send";
 import connect from "./connect";
 import changePin from "./components/changePin";
 import editProfile from "./components/editProfile";
@@ -28,7 +28,7 @@ export default function App() {
         <Stack.Screen name="language" component={language} />
         <Stack.Screen name="actions" component={actions} />
         <Stack.Screen name="transaction" component={transaction} />
-        <Stack.Screen name="pay" component={pay} />
+        <Stack.Screen name="send" component={send} />
 
         <Stack.Screen name="connect" component={connect} />
         <Stack.Screen name="editProfile" component={editProfile} />

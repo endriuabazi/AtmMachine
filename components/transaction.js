@@ -45,7 +45,7 @@ const transaction = () => {
               nextFocusForward={1}
               style={styles.list}
               onPress={() => {
-                navigation.navigate("actions", { key: account.account_id });
+                navigation.navigate("", { key: account.account_id });
               }}
             >
               <Text style={{ color: "white", fontSize: 18 }}>

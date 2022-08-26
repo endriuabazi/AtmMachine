@@ -11,14 +11,15 @@ import {
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
-const withdraw = ({ navigation }) => {
+const send = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
+  const [account_name, setAccount_name] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   var depositParamID = route.params.id3;
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/account/withdraw?id=${route.params.id3}&amount=${amount}`,
+      `https://localhost:7027/api/account/send?id=${route.params.id3}&amount=${amount}&account_name=${account_name}`,
       {
         method: "PUT",
         headers: {
@@ -31,7 +32,7 @@ const withdraw = ({ navigation }) => {
         if (response.status === 200) {
           console.log(response);
           console.log(response.json());
-          alert("Withdraw successful!");
+          alert("Send successful!");
           navigation.push("actions", {
             depositParamID: depositParamID,
           });
@@ -51,11 +52,30 @@ const withdraw = ({ navigation }) => {
       <Image style={{ top: -120 }} source={require("../assets/emblem.png")} />
 
       <Text style={{ color: "white", fontSize: 20, top: -95, padding: 22 }}>
-        You want to withdraw? Here is the right place to do it!
+        You want to send money? Here is the right place to do it!
       </Text>
       <Image
         style={{ width: 150, height: 150, top: 13 }}
         source={require("../assets/istockphoto-929921700-170667a.jpg")}
+      />
+      <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
+        Enter the destination:
+      </Text>
+      <TextInput
+        style={{
+          top: -10,
+          color: "white",
+          fontSize: 20,
+          borderBottomWidth: 1.75,
+          borderColor: "white",
+          width: -230,
+        }}
+        placeholder="Account Name"
+        onChangeText={(value) => setAccount_name(value)}
+        // defaultValue={Number}
+        secureTextEntry={false}
+        keyboardType="numeric"
+        maxLength={10000}
       />
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Please enter the amount !
@@ -103,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withdraw;
+export default send;

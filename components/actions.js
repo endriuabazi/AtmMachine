@@ -110,39 +110,26 @@ const actions = ({ navigation }) => {
             Transactions History
           </Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           nextFocusForward={1}
           style={styles.list}
           onPress={() => {
-            navigation.navigate("", {
-              id: accID,
+            navigation.navigate("send", {
+              id3: accID,
             });
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>Send</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.push("login");
           }}
         >
           <Text style={{ color: "white", fontSize: 18 }}>Exit</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          nextFocusForward={1}
-          style={styles.list}
-          onPress={() => {
-            navigation.navigate("transaction", {
-              id: accID,
-            });
-          }}
-        >
-          <Text style={{ color: "white", fontSize: 18 }}>Pay</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          nextFocusForward={1}
-          style={styles.list}
-          onPress={() => {
-            navigation.navigate("pay");
-          }}
-        >
-          <Text style={{ color: "white", fontSize: 18 }}>Send</Text>
-        </TouchableOpacity> */}
       </SafeAreaView>
     </SafeAreaView>
   );
