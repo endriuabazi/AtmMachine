@@ -38,7 +38,10 @@ const actions = ({ navigation }) => {
     <SafeAreaView style={styles.pinContainer}>
       <SafeAreaView>
         {/* Emblema */}
-        <Image source={require("../assets/emblem.png")} />
+        <Image
+          style={{ top: -50, width: 335, height: 82 }}
+          source={require("../assets/emblem.png")}
+        />
       </SafeAreaView>
 
       {loading ? (
@@ -91,24 +94,11 @@ const actions = ({ navigation }) => {
           style={styles.list}
           onPress={() => {
             navigation.navigate("deposit", {
-              id: accID,
-            });
-          }}
-        >
-          <Text style={{ color: "white", fontSize: 18 }}>Deposit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          nextFocusForward={1}
-          style={styles.list}
-          onPress={() => {
-            navigation.navigate("transaction", {
               id3: accID,
             });
           }}
         >
-          <Text style={{ color: "white", fontSize: 18 }}>
-            Transactions History
-          </Text>
+          <Text style={{ color: "white", fontSize: 18 }}>Deposit</Text>
         </TouchableOpacity>
         <TouchableOpacity
           nextFocusForward={1}
@@ -122,6 +112,20 @@ const actions = ({ navigation }) => {
         >
           <Text style={{ color: "white", fontSize: 18 }}>Send</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          nextFocusForward={1}
+          style={styles.list}
+          onPress={() => {
+            navigation.navigate("transaction", {
+              id: accID,
+            });
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 18 }}>
+            Transactions History
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           nextFocusForward={1}
           style={styles.list}
@@ -174,7 +178,7 @@ const styles = StyleSheet.create({
     top: -40,
   },
   welcome: {
-    top: -100,
+    top: -50,
   },
 });
 

@@ -15,10 +15,10 @@ const transaction = () => {
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   // const [accID, setAccID] = useState([]);
-  var username = route.params.username;
+  // var username = route.params.username;
   useEffect(() => {
     fetch(
-      `https://localhost:7027/api/account/GetTransFromAcc?id=${route.params.id3}`
+      `https://localhost:7027/api/account/GetTransFromAcc?id=${route.params.id}`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -30,13 +30,17 @@ const transaction = () => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <SafeAreaView>
-        {/* Emblema */}
-        <Image style={{ top: -180 }} source={require("../assets/emblem.png")} />
-      </SafeAreaView>
+      <ScrollView style={styles.scrrollstyle}>
+        <SafeAreaView>
+          {/* Emblema */}
+          <Image
+            style={{ top: -50, width: 335, height: 82 }}
+            source={require("../assets/emblem.png")}
+          />
+        </SafeAreaView>
 
-      <Text style={{ color: "white", fontSize: 25 }}>History:</Text>
-      <ScrollView>
+        <Text style={{ color: "white", fontSize: 25 }}>History:</Text>
+
         <SafeAreaView>
           {loading ? (
             <ActivityIndicator />
@@ -53,7 +57,7 @@ const transaction = () => {
                 }}
               >
                 <Text style={{ color: "white", fontSize: 18 }}>
-                  {account.transaction_type} , Amount: {account.amount}
+                  {account.transaction_type} , Amount: {account.amount}{" "}
                 </Text>
               </TouchableOpacity>
             ))
@@ -93,6 +97,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomEndRadius: 15,
     marginBottom: 5,
+  },
+
+  scrrollstyle: {
+    paddingVertical: 20,
+    flex: 1,
   },
 });
 

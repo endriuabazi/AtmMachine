@@ -35,7 +35,10 @@ const profile = ({ navigation }) => {
     <SafeAreaView style={styles.pinContainer}>
       <SafeAreaView>
         {/* Emblema */}
-        <Image style={{ top: -180 }} source={require("../assets/emblem.png")} />
+        <Image
+          style={{ top: -50, width: 335, height: 82 }}
+          source={require("../assets/emblem.png")}
+        />
       </SafeAreaView>
 
       <Text style={{ color: "white", fontSize: 30, top: -100 }}>
@@ -51,6 +54,12 @@ const profile = ({ navigation }) => {
           {route.params.usernameValue}
         </Text>
       </Text>
+
+      <Text style={{ color: "white", fontSize: 18, padding: 20 }}>
+        If you want to go to actions , please tap your desired account to
+        proceed!
+      </Text>
+
       <Text style={{ color: "white", fontSize: 25 }}>Accouts:</Text>
 
       <SafeAreaView>

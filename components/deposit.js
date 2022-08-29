@@ -15,11 +15,11 @@ const deposit = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
-  var depositParamID = route.params.id;
+  var depositParamID = route.params.id3;
 
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/account/deposit?id=${route.params.id}&amount=${amount}`,
+      `https://localhost:7027/api/account/deposit?id=${route.params.id3}&amount=${amount}`,
       {
         method: "PUT",
         headers: {
@@ -54,7 +54,10 @@ const deposit = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image style={{ top: -120 }} source={require("../assets/emblem.png")} />
+      <Image
+        style={{ top: 10, width: 335, height: 82 }}
+        source={require("../assets/emblem.png")}
+      />
 
       <Text style={{ color: "white", fontSize: 20, top: -95, padding: 22 }}>
         You want to deposit? Here is the right place to do it!
@@ -74,6 +77,8 @@ const deposit = ({ navigation }) => {
           borderBottomWidth: 1.75,
           borderColor: "white",
           width: -230,
+          textAlign: "center",
+          placeholderTextColor: "#0d1117",
         }}
         placeholder="Amount"
         onChangeText={(value) => setAmount(value)}

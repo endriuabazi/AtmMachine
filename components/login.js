@@ -48,7 +48,10 @@ const login = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image style={{ top: -150 }} source={require("../assets/emblem.png")} />
+      <Image
+        style={{ top: -50, width: 335, height: 82 }}
+        source={require("../assets/emblem.png")}
+      />
 
       <Text style={styles.text1}>Please enter your username & pin !</Text>
       <TextInput
@@ -97,8 +100,9 @@ const styles = StyleSheet.create({
 
   text1: {
     color: "#e5e5e5",
-    fontSize: 22,
+    fontSize: 20,
     top: -15,
+    padding: 8,
   },
 
   input: {
@@ -107,7 +111,8 @@ const styles = StyleSheet.create({
     color: "#c9d1d9",
     fontSize: 20,
     borderBottomWidth: 1.75,
-    borderColor: "white",
+
+    borderColor: "#c9d1d9",
     margin: 15,
     textAlign: "center",
     textDecorationLine: "none",

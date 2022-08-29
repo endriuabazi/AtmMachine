@@ -15,10 +15,10 @@ const withdraw = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
-  var depositParamID = route.params.id3;
+  var depositParamID = route.params.id;
   const handlerequest = () => {
     return fetch(
-      `https://localhost:7027/api/account/withdraw?id=${route.params.id3}&amount=${amount}`,
+      `https://localhost:7027/api/account/withdraw?id=${route.params.id}&amount=${amount}`,
       {
         method: "PUT",
         headers: {
@@ -48,7 +48,10 @@ const withdraw = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image style={{ top: -120 }} source={require("../assets/emblem.png")} />
+      <Image
+        style={{ top: 10, width: 335, height: 82 }}
+        source={require("../assets/emblem.png")}
+      />
 
       <Text style={{ color: "white", fontSize: 20, top: -95, padding: 22 }}>
         You want to withdraw? Here is the right place to do it!
@@ -68,6 +71,8 @@ const withdraw = ({ navigation }) => {
           borderBottomWidth: 1.75,
           borderColor: "white",
           width: -230,
+          textAlign: "center",
+          placeholderTextColor: "#0d1117",
         }}
         placeholder="Amount"
         onChangeText={(value) => setAmount(value)}

@@ -17,6 +17,13 @@ const editProfile = ({ navigation }) => {
   const [address, setAdd] = useState(null);
   const [usernameValue, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
+
+  //display old data
+  const [oldphone, setOldPhone] = useState([]);
+  const [oldaddress, setOldAdd] = useState([]);
+  const [oldusernameValue, setOldUsername] = useState([]);
+  const [oldemail, setOldEmail] = useState([]);
+
   const handlerequest = () => {
     return fetch(
       `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.id3}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
@@ -45,56 +52,63 @@ const editProfile = ({ navigation }) => {
         console.error(error);
       });
   };
-  // useEffect(() => {
-  //   fetch(
-  //     `https://localhost:7027/api/client/GetClientsbyUsername?username=${route.params.id3}`
-  //   )
-  //   .then((json) => {
-  //     setcurrency(json.currency);
-  //     setACCName(json.account_name);
-  //     setbalance(json.balance);
-  //     setAccID(json.account_id);
+  useEffect(() => {
+    fetch(
+      `https://localhost:7027/api/client/GetAccountsByUsername?username=${route.params.id3}`
+    )
+      .then((json) => {
+        setOldAdd(json.address);
+        setOldEmail(json.email);
+        setOldPhone(json.client_phone);
+        setOldUsername(json.username);
 
-  //     // setDescription(json.description);
-  //   })
-  //     .then((json) => setData(json))
-  //     .catch((error) => console.log(error))
-  //     .finally(() => setLoading(false));
-  // }, []);
+        // setDescription(json.description);
+      })
+      .then((json) => setData(json))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image style={{ top: -150 }} source={require("../assets/emblem.png")} />
+      <Image
+        style={{ top: 10, width: 335, height: 82 }}
+        source={require("../assets/emblem.png")}
+      />
 
       <SafeAreaView>
         <Text style={styles.text1}>Please enter your new username !</Text>
         <TextInput
           style={styles.pininput}
-          placeholder="username!"
+          placeholder="username"
           placeholderTextColor="#0d1117"
           onChangeText={(value) => setUsername(value)}
+          defaultValue={oldusernameValue}
         />
         <Text style={styles.text1}>Please enter your new address!</Text>
         <TextInput
           style={styles.pininput}
-          placeholder="address!"
+          placeholder="address"
           placeholderTextColor="#0d1117"
           onChangeText={(value) => setAdd(value)}
+          defaultValue={oldaddress}
         />
         <Text style={styles.text1}>Please enter your new phone!</Text>
         <TextInput
           style={styles.pininput}
-          placeholder="phone!"
+          placeholder="phone"
           placeholderTextColor="#0d1117"
           onChangeText={(value) => setPhone(value)}
+          defaultValue={oldphone}
         />
 
         <Text style={styles.text1}>Please enter your new email !</Text>
         <TextInput
           style={styles.pininput}
-          placeholder="email!"
+          placeholder="email"
           placeholderTextColor="#0d1117"
           onChangeText={(value) => setEmail(value)}
+          defaultValue={oldemail}
         />
       </SafeAreaView>
 

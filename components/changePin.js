@@ -46,7 +46,10 @@ const changePin = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image style={{ top: -150 }} source={require("../assets/emblem.png")} />
+      <Image
+        style={{ top: -50, width: 335, height: 82 }}
+        source={require("../assets/emblem.png")}
+      />
       <SafeAreaView>
         <Text style={styles.text1}>Please enter your new pin !</Text>
         <TextInput

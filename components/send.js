@@ -70,7 +70,10 @@ const send = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image style={{ top: -120 }} source={require("../assets/emblem.png")} />
+      <Image
+        style={{ top: -50, width: 335, height: 82 }}
+        source={require("../assets/emblem.png")}
+      />
 
       <Text style={{ color: "white", fontSize: 20, top: -95, padding: 22 }}>
         You want to send money? Here is the right place to do it!
@@ -110,22 +113,6 @@ const send = ({ navigation }) => {
         </Picker>
       </SafeAreaView>
 
-      {/* <TextInput
-        style={{
-          top: -10,
-          color: "white",
-          fontSize: 20,
-          borderBottomWidth: 1.75,
-          borderColor: "white",
-          width: -230,
-        }}
-        placeholder="Account Name"
-        onChangeText={(value) => setAccount_name(value)}
-        // defaultValue={Number}
-        secureTextEntry={false}
-        keyboardType="numeric"
-        maxLength={10000}
-      /> */}
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Please enter the amount !
       </Text>
@@ -137,6 +124,8 @@ const send = ({ navigation }) => {
           borderBottomWidth: 1.75,
           borderColor: "white",
           width: -230,
+          textAlign: "center",
+          placeholderTextColor: "#0d1117",
         }}
         placeholder="Amount"
         onChangeText={(value) => setAmount(value)}
