@@ -86,7 +86,7 @@ const deposit = ({ navigation }) => {
       <View style={styles.hapsira}>
         <Button
           touchSoundDisabled
-          color="#EAB543"
+          color="#0d1117"
           title="Continue"
           onPress={handlerequest}
         />
@@ -99,7 +99,7 @@ const deposit = ({ navigation }) => {
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",

@@ -15,7 +15,7 @@ const profile = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   const [accID, setAccID] = useState([]);
-  const [clientID, setClientID] = useState([]);
+
   var us = route.params.usernameValue;
   useEffect(() => {
     fetch(
@@ -40,8 +40,15 @@ const profile = ({ navigation }) => {
 
       <Text style={{ color: "white", fontSize: 30, top: -100 }}>
         Welcome{" "}
-        <Text style={{ color: "#EAB543", fontSize: 30, top: -100 }}>
-          {route.params.usernameValue}!
+        <Text
+          style={{
+            color: "#ffbf00",
+            fontSize: 30,
+            top: -100,
+            textTransform: "capitalize",
+          }}
+        >
+          {route.params.usernameValue}
         </Text>
       </Text>
       <Text style={{ color: "white", fontSize: 25 }}>Accouts:</Text>
@@ -56,7 +63,10 @@ const profile = ({ navigation }) => {
               nextFocusForward={1}
               style={styles.list}
               onPress={() => {
-                navigation.navigate("actions", { key: account.account_id });
+                navigation.navigate("actions", {
+                  key: account.account_id,
+                  username: us,
+                });
               }}
             >
               <Text style={{ color: "white", fontSize: 18 }}>
@@ -70,7 +80,7 @@ const profile = ({ navigation }) => {
       <SafeAreaView style={styles.up}>
         <Button
           touchSoundDisabled
-          color="grey"
+          color="#0d1117"
           title="Edit Profile"
           onPress={() => {
             navigation.navigate("editProfile", {
@@ -82,7 +92,7 @@ const profile = ({ navigation }) => {
         <SafeAreaView style={styles.left}>
           <Button
             touchSoundDisabled
-            color="grey"
+            color="#0d1117"
             title="Change Pin"
             onPress={() => {
               navigation.navigate("changePin", {
@@ -101,7 +111,8 @@ const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
     // backgroundColor:'#212121',
-    backgroundColor: "#192a56",
+    // backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",
@@ -121,7 +132,7 @@ const styles = StyleSheet.create({
 
   list: {
     alignItems: "center",
-    backgroundColor: "#EAB543",
+    backgroundColor: "#ffbf00",
     padding: 10,
     borderBottomEndRadius: 15,
     marginBottom: 5,

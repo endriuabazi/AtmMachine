@@ -8,12 +8,17 @@ import {
   TextInput,
   SafeAreaView,
   Image,
+  Picker,
+  ActivityIndicator,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 const send = ({ navigation }) => {
+  const [data, setData] = useState([]);
   const [amount, setAmount] = useState([]);
   const [account_name, setAccount_name] = useState([]);
+  const [accID, setAccID] = useState([]);
+  const [accountName, setAccountName] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   var depositParamID = route.params.id3;
@@ -47,6 +52,22 @@ const send = ({ navigation }) => {
       });
   };
 
+  //get accounts for dropdown
+
+  useEffect(() => {
+    fetch(
+      `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.username}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        setAccID(json.account_id);
+        setAccountName(json.account_name);
+        setData(json);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <SafeAreaView style={styles.pinContainer}>
       <Image style={{ top: -120 }} source={require("../assets/emblem.png")} />
@@ -61,7 +82,35 @@ const send = ({ navigation }) => {
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Enter the destination:
       </Text>
-      <TextInput
+
+      <SafeAreaView>
+        <Picker
+          selectedValue={account_name}
+          // multiple={true}
+          style={{
+            height: 50,
+            width: 100,
+            borderBottomEndRadius: 15,
+            marginBottom: 5,
+            backgroundColor: "#ffbf00",
+            color: "white",
+          }}
+          onValueChange={(itemValue, itemIndex) => setAccount_name(itemValue)}
+        >
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            data.flatMap((account) => (
+              <Picker.Item
+                label={account.account_name}
+                value={account.account_name}
+              />
+            ))
+          )}
+        </Picker>
+      </SafeAreaView>
+
+      {/* <TextInput
         style={{
           top: -10,
           color: "white",
@@ -76,7 +125,7 @@ const send = ({ navigation }) => {
         secureTextEntry={false}
         keyboardType="numeric"
         maxLength={10000}
-      />
+      /> */}
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Please enter the amount !
       </Text>
@@ -100,7 +149,7 @@ const send = ({ navigation }) => {
       <View style={styles.hapsira}>
         <Button
           touchSoundDisabled
-          color="#EAB543"
+          color="#0d1117"
           title="Continue"
           onPress={handlerequest}
         />
@@ -113,7 +162,7 @@ const send = ({ navigation }) => {
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",

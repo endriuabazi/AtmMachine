@@ -53,13 +53,15 @@ const login = ({ navigation }) => {
       <Text style={styles.text1}>Please enter your username & pin !</Text>
       <TextInput
         style={styles.input}
-        placeholder="USERNAME!"
+        placeholder="username"
+        placeholderTextColor="#0d1117"
         onChangeText={(value) => setUsername(value)}
         // value={username}
       />
       <TextInput
         style={styles.input}
-        placeholder="PIN!"
+        placeholder="pin"
+        placeholderTextColor="#0d1117"
         onChangeText={(value) => setPin(value)}
         // value={pin}
         defaultValue={Number}
@@ -71,7 +73,7 @@ const login = ({ navigation }) => {
       <View style={styles.hapsira}>
         <Button
           touchSoundDisabled
-          color="grey"
+          color="#0d1117"
           title="Login"
           onPress={handlerequest}
         />
@@ -83,7 +85,8 @@ const login = ({ navigation }) => {
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
+
     alignItems: "center",
     justifyContent: "center",
     color: "white",
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   text1: {
-    color: "white",
+    color: "#e5e5e5",
     fontSize: 22,
     top: -15,
   },
@@ -101,11 +104,13 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     top: -10,
-    color: "white",
+    color: "#c9d1d9",
     fontSize: 20,
     borderBottomWidth: 1.75,
     borderColor: "white",
     margin: 15,
+    textAlign: "center",
+    textDecorationLine: "none",
   },
 });
 

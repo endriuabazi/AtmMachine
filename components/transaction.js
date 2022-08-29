@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 const transaction = () => {
@@ -14,6 +15,7 @@ const transaction = () => {
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   // const [accID, setAccID] = useState([]);
+  var username = route.params.username;
   useEffect(() => {
     fetch(
       `https://localhost:7027/api/account/GetTransFromAcc?id=${route.params.id3}`
@@ -34,27 +36,30 @@ const transaction = () => {
       </SafeAreaView>
 
       <Text style={{ color: "white", fontSize: 25 }}>History:</Text>
-
-      <SafeAreaView>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          data.flatMap((account) => (
-            <TouchableOpacity
-              key={account.transaction_id}
-              nextFocusForward={1}
-              style={styles.list}
-              onPress={() => {
-                navigation.navigate("", { key: account.account_id });
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 18 }}>
-                {account.transaction_type} , Amount: {account.amount}
-              </Text>
-            </TouchableOpacity>
-          ))
-        )}
-      </SafeAreaView>
+      <ScrollView>
+        <SafeAreaView>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            data.flatMap((account) => (
+              <TouchableOpacity
+                key={account.transaction_id}
+                nextFocusForward={1}
+                style={styles.list}
+                onPress={() => {
+                  navigation.navigate("", {
+                    key: account.account_id,
+                  });
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 18 }}>
+                  {account.transaction_type} , Amount: {account.amount}
+                </Text>
+              </TouchableOpacity>
+            ))
+          )}
+        </SafeAreaView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
     // backgroundColor:'#212121',
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
 
   list: {
     alignItems: "center",
-    backgroundColor: "#EAB543",
+    backgroundColor: "#ffbf00",
     padding: 10,
     borderBottomEndRadius: 15,
     marginBottom: 5,

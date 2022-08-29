@@ -17,7 +17,7 @@ const actions = ({ navigation }) => {
   const [accID, setAccID] = useState([]);
   const [loading, setLoading] = useState(true);
   const route = useRoute();
-
+  var username = route.params.username;
   useEffect(() => {
     if (route.params.key == null) {
       route.params.key = route.params.depositParamID;
@@ -47,7 +47,7 @@ const actions = ({ navigation }) => {
         <SafeAreaView style={styles.welcome}>
           <Text style={{ color: "white", fontSize: 30, top: -300 }}>
             Account:{" "}
-            <Text style={{ color: "#EAB543", fontSize: 30, top: -200 }}>
+            <Text style={{ color: "#ffbf00", fontSize: 30, top: -200 }}>
               {accName}!
             </Text>
           </Text>
@@ -62,7 +62,7 @@ const actions = ({ navigation }) => {
           <Text>
             <Text style={{ color: "white", fontSize: 22, top: 12 }}>
               Balance :{" "}
-              <Text style={{ color: "#EAB543", fontSize: 30 }}>
+              <Text style={{ color: "#ffbf00", fontSize: 30 }}>
                 {currency} {balance}
               </Text>
             </Text>
@@ -116,6 +116,7 @@ const actions = ({ navigation }) => {
           onPress={() => {
             navigation.navigate("send", {
               id3: accID,
+              username: username,
             });
           }}
         >
@@ -137,7 +138,7 @@ const actions = ({ navigation }) => {
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
   list: {
     alignItems: "center",
-    backgroundColor: "#EAB543",
+    backgroundColor: "#ffbf00",
     padding: 10,
     borderBottomEndRadius: 15,
     marginBottom: 5,

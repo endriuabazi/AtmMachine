@@ -51,7 +51,8 @@ const changePin = ({ navigation }) => {
         <Text style={styles.text1}>Please enter your new pin !</Text>
         <TextInput
           style={styles.pininput}
-          placeholder="PIN!"
+          placeholder="new pin"
+          placeholderTextColor="#0d1117"
           onChangeText={(value) => setPin(value)}
           // defaultValue={Number}
           secureTextEntry={true}
@@ -63,7 +64,8 @@ const changePin = ({ navigation }) => {
         <Text style={styles.text1}>Please re-enter your new pin !</Text>
         <TextInput
           style={styles.pininput}
-          placeholder="PIN!"
+          placeholder="re-enter pin"
+          placeholderTextColor="#0d1117"
           onChangeText={(value) => resetPin(value)}
           // defaultValue={Number}
           secureTextEntry={true}
@@ -72,7 +74,7 @@ const changePin = ({ navigation }) => {
           maxLength={4}
         />
       </SafeAreaView>
-      <Button title="Login" onPress={handlerequest} />
+      <Button color="#0d1117" title="Change pin" onPress={handlerequest} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -80,7 +82,7 @@ const changePin = ({ navigation }) => {
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",
@@ -104,6 +106,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.75,
     borderColor: "white",
     margin: 14,
+    textAlign: "center",
   },
 });
 

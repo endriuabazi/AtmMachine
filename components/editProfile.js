@@ -71,18 +71,21 @@ const editProfile = ({ navigation }) => {
         <TextInput
           style={styles.pininput}
           placeholder="username!"
+          placeholderTextColor="#0d1117"
           onChangeText={(value) => setUsername(value)}
         />
         <Text style={styles.text1}>Please enter your new address!</Text>
         <TextInput
           style={styles.pininput}
           placeholder="address!"
+          placeholderTextColor="#0d1117"
           onChangeText={(value) => setAdd(value)}
         />
         <Text style={styles.text1}>Please enter your new phone!</Text>
         <TextInput
           style={styles.pininput}
           placeholder="phone!"
+          placeholderTextColor="#0d1117"
           onChangeText={(value) => setPhone(value)}
         />
 
@@ -90,6 +93,7 @@ const editProfile = ({ navigation }) => {
         <TextInput
           style={styles.pininput}
           placeholder="email!"
+          placeholderTextColor="#0d1117"
           onChangeText={(value) => setEmail(value)}
         />
       </SafeAreaView>
@@ -97,7 +101,7 @@ const editProfile = ({ navigation }) => {
       <SafeAreaView style={styles.hapsira}>
         <Button
           touchSoundDisabled
-          color="grey"
+          color="#0d1117"
           title="Update Profile"
           onPress={handlerequest}
         />
@@ -109,7 +113,7 @@ const editProfile = ({ navigation }) => {
 const styles = StyleSheet.create({
   pinContainer: {
     flex: 1,
-    backgroundColor: "#192a56",
+    backgroundColor: "#5913f4",
     alignItems: "center",
     justifyContent: "center",
     color: "white",
@@ -133,6 +137,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.75,
     borderColor: "white",
     margin: 14,
+    textAlign: "center",
   },
 });
 
