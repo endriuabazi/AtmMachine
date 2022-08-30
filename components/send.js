@@ -86,7 +86,7 @@ const send = ({ navigation }) => {
         Enter the destination:
       </Text>
 
-      <SafeAreaView>
+      {/* <SafeAreaView>
         <Picker
           selectedValue={account_name}
           // multiple={true}
@@ -98,23 +98,45 @@ const send = ({ navigation }) => {
             backgroundColor: "#ffbf00",
             color: "white",
           }}
-          onValueChange={(itemValue, itemIndex) => setAccount_name(itemValue)}
+          onValueChange={(itemValue, itemIndex) =>
+            setAccount_name(itemValue, itemIndex)
+          }
         >
           {loading ? (
             <ActivityIndicator />
           ) : (
-            data.flatMap((account) => (
+            data.map((account) => (
               <Picker.Item
                 label={account.account_name}
                 value={account.account_name}
+                key={account.account_id}
               />
             ))
           )}
         </Picker>
-      </SafeAreaView>
+      </SafeAreaView> */}
+
+      <TextInput
+        style={{
+          top: -10,
+          color: "white",
+          fontSize: 20,
+          borderBottomWidth: 1.75,
+          borderColor: "white",
+          width: -230,
+          textAlign: "center",
+          placeholderTextColor: "#0d1117",
+        }}
+        placeholder="Account Name"
+        onChangeText={(value) => setAccount_name(value)}
+        // defaultValue={Number}
+        secureTextEntry={false}
+        keyboardType="numeric"
+        maxLength={10000}
+      />
 
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
-        Please enter the amount !
+        Enter the amount:
       </Text>
       <TextInput
         style={{

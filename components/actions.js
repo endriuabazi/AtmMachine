@@ -110,7 +110,7 @@ const actions = ({ navigation }) => {
             });
           }}
         >
-          <Text style={{ color: "white", fontSize: 18 }}>Send</Text>
+          <Text style={{ color: "white", fontSize: 18 }}>Transfer</Text>
         </TouchableOpacity>
         <TouchableOpacity
           nextFocusForward={1}

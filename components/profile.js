@@ -56,11 +56,11 @@ const profile = ({ navigation }) => {
       </Text>
 
       <Text style={{ color: "white", fontSize: 18, padding: 20 }}>
-        If you want to go to actions , please tap your desired account to
+        If you want to make a transaction , please tap your desired account to
         proceed!
       </Text>
 
-      <Text style={{ color: "white", fontSize: 25 }}>Accouts:</Text>
+      <Text style={{ color: "white", fontSize: 25 }}>Accounts:</Text>
 
       <SafeAreaView>
         {loading ? (
