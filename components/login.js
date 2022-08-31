@@ -12,7 +12,6 @@ import {
   Image,
   Modal,
   Alert,
-  Pressable,
 } from "react-native";
 
 const login = ({ navigation }) => {

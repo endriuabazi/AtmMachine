@@ -7,10 +7,14 @@ import {
   TextInput,
   SafeAreaView,
   Image,
+  Modal,
+  Alert,
+  View,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import login from "./login";
 const editProfile = ({ navigation }) => {
-  // const [data, setData] = useState([]);
+  //👇️ const [data, setData] = useState([]);
   const [phone, setPhone] = useState(null);
   const route = useRoute();
   const [loading, setLoading] = useState(true);
@@ -18,12 +22,26 @@ const editProfile = ({ navigation }) => {
   const [usernameValue, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
 
-  //display old data
+  //👇️ modal state
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [errormodalVisible, seterrorModalVisible] = useState(false);
+
+  //👇️ display old data
   const [oldphone, setOldPhone] = useState([]);
   const [oldaddress, setOldAdd] = useState([]);
   const [oldusernameValue, setOldUsername] = useState([]);
   const [oldemail, setOldEmail] = useState([]);
 
+  //👇️ modal function hide and show
+  const showModal = () => {
+    setModalVisible((current) => !current);
+  };
+  const showErrorModal = () => {
+    seterrorModalVisible((current) => !current);
+  };
+
+  //👇️ main function
   const handlerequest = () => {
     return fetch(
       `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.id3}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
@@ -39,12 +57,12 @@ const editProfile = ({ navigation }) => {
         if (response.status === 200) {
           console.log(response);
           console.log(response.json());
-          alert("Edit is Done!");
-          navigation.navigate("login");
+
+          showModal();
+          // navigation.navigate("login");
         } else {
           console.log(response);
-
-          alert("Something went wrog!");
+          showErrorModal();
         }
       })
 
@@ -75,6 +93,61 @@ const editProfile = ({ navigation }) => {
         style={{ top: 10, width: 335, height: 82 }}
         source={require("../assets/emblem.png")}
       />
+      <SafeAreaView>
+        {modalVisible ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  Profile edited successfully
+                </Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => navigation.navigate("login")}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
+
+      <SafeAreaView>
+        {errormodalVisible ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  Error occoured , profile did not edited
+                </Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setModalVisible(!modalVisible)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
 
       <SafeAreaView>
         <Text style={styles.text1}>Please enter your new username !</Text>
@@ -152,6 +225,35 @@ const styles = StyleSheet.create({
     borderColor: "white",
     margin: 14,
     textAlign: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#c9d1d9",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  errorMsg: {
+    color: "#B00020",
   },
 });
 

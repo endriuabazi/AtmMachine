@@ -7,6 +7,9 @@ import {
   TextInput,
   SafeAreaView,
   Image,
+  Modal,
+  Alert,
+  View,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
@@ -14,8 +17,28 @@ const changePin = ({ navigation }) => {
   const [pinValue, setPin] = useState(null);
   const [pinValue2, resetPin] = useState(null);
   const route = useRoute();
+  const [pinErrorText, setPinErrorText] = useState(false);
+
+  //👇️ when only pin is incorrect
+  const showTextPinOnly = () => {
+    setPinErrorText((current) => !current);
+  };
+
+  //👇️ modal state
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  //👇️ modal function hide and show
+
+  const showModal = () => {
+    setModalVisible((current) => !current);
+  };
 
   const handlerequest = () => {
+    if (pinValue != pinValue2) {
+      return showTextPinOnly();
+    }
+
     return fetch(
       `https://localhost:7027/api/client/changePin?username=${route.params.id2}&pin1=${pinValue}&pin2=${pinValue2}`,
       {
@@ -30,12 +53,9 @@ const changePin = ({ navigation }) => {
         if (response.status === 200) {
           console.log(response);
           console.log(response.json());
-          alert("Pin Changed Successfully");
-          navigation.navigate("login");
+          showModal();
         } else {
           console.log(response);
-
-          alert("Passwords doesn't match!");
         }
       })
 
@@ -50,6 +70,32 @@ const changePin = ({ navigation }) => {
         style={{ top: -50, width: 335, height: 82 }}
         source={require("../assets/emblem.png")}
       />
+      <SafeAreaView>
+        {modalVisible ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Pin edited successfully</Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => navigation.navigate("login")}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
+
       <SafeAreaView>
         <Text style={styles.text1}>Please enter your new pin !</Text>
         <TextInput
@@ -77,6 +123,9 @@ const changePin = ({ navigation }) => {
           maxLength={4}
         />
       </SafeAreaView>
+      {pinErrorText ? (
+        <Text style={styles.errorMsg}>Pin does not match</Text>
+      ) : null}
       <Button color="#0d1117" title="Change pin" onPress={handlerequest} />
       <StatusBar style="auto" />
     </SafeAreaView>
@@ -110,6 +159,35 @@ const styles = StyleSheet.create({
     borderColor: "white",
     margin: 14,
     textAlign: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#c9d1d9",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  errorMsg: {
+    color: "#B00020",
   },
 });
 
