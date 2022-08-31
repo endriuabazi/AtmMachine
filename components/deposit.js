@@ -8,15 +8,35 @@ import {
   TextInput,
   SafeAreaView,
   Image,
+  Modal,
+  Alert,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 const deposit = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [amountErrorText, setAmountErrorText] = useState(false);
   const route = useRoute();
   var depositParamID = route.params.id3;
 
+  //👇️ when only pin is incorrect
+  const showErrorText = () => {
+    setAmountErrorText((current) => !current);
+  };
+
+  //👇️ modal state
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  //👇️ modal function hide and show
+
+  const showModal = () => {
+    setModalVisible((current) => !current);
+    navigation.push("actions", {
+      depositParamID: depositParamID,
+    });
+  };
   const handlerequest = () => {
     return fetch(
       `https://localhost:7027/api/account/deposit?id=${route.params.id3}&amount=${amount}`,
@@ -32,18 +52,10 @@ const deposit = ({ navigation }) => {
         if (response.status === 200) {
           console.log(response);
           console.log(response.json());
-          alert("Deposit successful!");
-          // navigation.navigate("actions", {
-          //   depositParamID: depositParamID,
-          // });
-          navigation.push("actions", {
-            depositParamID: depositParamID,
-          });
-          // route.params.onReturn(depositParamID);
-          // navigation.goBack();
+          showModal();
         } else {
           console.log(response);
-          alert("Something went wrog!");
+          showErrorText();
         }
       })
 
@@ -58,7 +70,31 @@ const deposit = ({ navigation }) => {
         style={{ top: 10, width: 335, height: 82 }}
         source={require("../assets/emblem.png")}
       />
-
+      <SafeAreaView>
+        {modalVisible ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Deposit successful!</Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={showModal}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
       <Text style={{ color: "white", fontSize: 20, top: -95, padding: 22 }}>
         You want to deposit? Here is the right place to do it!
       </Text>
@@ -87,6 +123,7 @@ const deposit = ({ navigation }) => {
         keyboardType="numeric"
         maxLength={10000}
       />
+      {amountErrorText ? <Text style={styles.errorMsg}>Error </Text> : null}
 
       <View style={styles.hapsira}>
         <Button
@@ -111,6 +148,35 @@ const styles = StyleSheet.create({
   },
   hapsira: {
     top: 20,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#c9d1d9",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  errorMsg: {
+    color: "#B00020",
   },
 });
 
