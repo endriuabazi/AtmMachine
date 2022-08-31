@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useRoute } from "@react-navigation/native";
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import {
   StyleSheet,
   Text,
@@ -10,13 +10,50 @@ import {
   TextInput,
   SafeAreaView,
   Image,
+  Modal,
+  Alert,
+  Pressable,
 } from "react-native";
 
 const login = ({ navigation }) => {
   const [pinValue, setPin] = useState(null);
   const [usernameValue, setUsername] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  // const [usernameErrorText, setUsernameErrorText] = useState([]);
+  const [pinErrorText, setPinErrorText] = useState(false);
+  const [hiddenUsernameError, setHiddenUsernameError] = useState(false);
 
+  //👇️ when both username and password are incorrect
+  const showTextBoth = () => {
+    setHiddenUsernameError((current) => !current);
+    setPinErrorText((current) => !current);
+  };
+
+  //👇️ when only username is incorrect
+  const showTextUsernameOnly = () => {
+    setPinErrorText((current) => !current);
+  };
+
+  //👇️ when only pin is incorrect
+  const showTextPinOnly = () => {
+    setPinErrorText((current) => !current);
+  };
+
+  //👇️ modal when not loggin in
+  const showModal = () => {
+    setModalVisible((current) => !current);
+  };
+
+  //👇️main function
   const handlerequest = () => {
+    if (pinValue == null && usernameValue == null) {
+      return showTextBoth();
+    } else if (usernameValue == null && pinValue != null) {
+      return showTextUsernameOnly();
+    } else if (pinValue == null && usernameValue != null) {
+      return showTextPinOnly();
+    }
+
     return fetch(
       `https://localhost:7027/api/client/login?pin=${pinValue}&username=${usernameValue}`,
       {
@@ -36,8 +73,8 @@ const login = ({ navigation }) => {
             usernameValue: usernameValue,
           });
         } else {
-          console.log(response);
-          alert("Something went wrog!");
+          console.log("Error");
+          showModal();
         }
       })
 
@@ -46,6 +83,22 @@ const login = ({ navigation }) => {
       });
   };
 
+  // useEffect(() => {
+  //   if (route.params.key == null) {
+  //     route.params.key = route.params.depositParamID;
+  //   }
+  //   fetch(`https://localhost:7027/api/account/${route.params.key}`)
+  //     .then((response) => response.json()) // get response, convert to json
+  //     .then((json) => {
+  //       setcurrency(json.currency);
+  //       setACCName(json.account_name);
+  //       setbalance(json.balance);
+  //       setAccID(json.account_id);
+  //     })
+  //     .catch((error) => alert(error)) // display errors
+  //     .finally(() => setLoading(false)); // change loading state
+  // }, []);
+
   return (
     <SafeAreaView style={styles.pinContainer}>
       <Image
@@ -53,6 +106,33 @@ const login = ({ navigation }) => {
         source={require("../assets/emblem.png")}
       />
 
+      <SafeAreaView>
+        {modalVisible ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  Username or pin not correct!
+                </Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setModalVisible(!modalVisible)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
       <Text style={styles.text1}>Please enter your username & pin !</Text>
       <TextInput
         style={styles.input}
@@ -61,6 +141,10 @@ const login = ({ navigation }) => {
         onChangeText={(value) => setUsername(value)}
         // value={username}
       />
+
+      {hiddenUsernameError ? (
+        <Text style={styles.errorMsg}>Username is empty</Text>
+      ) : null}
       <TextInput
         style={styles.input}
         placeholder="pin"
@@ -73,6 +157,8 @@ const login = ({ navigation }) => {
         keyboardType="numeric"
         maxLength={4}
       />
+      {pinErrorText ? <Text style={styles.errorMsg}>Pin is empty</Text> : null}
+      {/* <text>{pinErrorText}</text> */}
       <View style={styles.hapsira}>
         <Button
           touchSoundDisabled
@@ -116,6 +202,35 @@ const styles = StyleSheet.create({
     margin: 15,
     textAlign: "center",
     textDecorationLine: "none",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#c9d1d9",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  errorMsg: {
+    color: "#B00020",
   },
 });
 

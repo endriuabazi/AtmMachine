@@ -54,7 +54,7 @@ const editProfile = ({ navigation }) => {
   };
   useEffect(() => {
     fetch(
-      `https://localhost:7027/api/client/GetAccountsByUsername?username=${route.params.id3}`
+      `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.id3}`
     )
       .then((json) => {
         setOldAdd(json.address);
