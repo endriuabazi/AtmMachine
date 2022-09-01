@@ -18,6 +18,7 @@ const actions = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const route = useRoute();
   var username = route.params.username;
+  var accountName = route.params.account_name;
   useEffect(() => {
     if (route.params.key == null) {
       route.params.key = route.params.depositParamID;
@@ -107,6 +108,8 @@ const actions = ({ navigation }) => {
             navigation.navigate("send", {
               id3: accID,
               username: username,
+              accountName: accountName,
+              balance: balance,
             });
           }}
         >

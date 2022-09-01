@@ -16,7 +16,7 @@ const profile = ({ navigation }) => {
   const route = useRoute();
   const [accID, setAccID] = useState([]);
 
-  var us = route.params.usernameValue;
+  var username = route.params.usernameValue;
   useEffect(() => {
     fetch(
       `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
@@ -75,6 +75,7 @@ const profile = ({ navigation }) => {
                 navigation.navigate("actions", {
                   key: account.account_id,
                   username: us,
+                  account_name: account.account_name,
                 });
               }}
             >
@@ -93,7 +94,7 @@ const profile = ({ navigation }) => {
           title="Edit Profile"
           onPress={() => {
             navigation.navigate("editProfile", {
-              id3: us,
+              id3: username,
             });
           }}
         />
@@ -105,7 +106,7 @@ const profile = ({ navigation }) => {
             title="Change Pin"
             onPress={() => {
               navigation.navigate("changePin", {
-                id2: us,
+                id2: username,
               });
             }}
           />

@@ -18,10 +18,14 @@ const changePin = ({ navigation }) => {
   const [pinValue2, resetPin] = useState(null);
   const route = useRoute();
   const [pinErrorText, setPinErrorText] = useState(false);
+  const [pinExist, setPinExist] = useState(false);
 
   //👇️ when only pin is incorrect
   const showTextPinOnly = () => {
     setPinErrorText((current) => !current);
+  };
+  const thisPinExist = () => {
+    setPinExist((current) => !current);
   };
 
   //👇️ modal state
@@ -56,6 +60,7 @@ const changePin = ({ navigation }) => {
           showModal();
         } else {
           console.log(response);
+          thisPinExist();
         }
       })
 
@@ -123,9 +128,57 @@ const changePin = ({ navigation }) => {
           maxLength={4}
         />
       </SafeAreaView>
-      {pinErrorText ? (
-        <Text style={styles.errorMsg}>Pin does not match</Text>
-      ) : null}
+      <SafeAreaView>
+        {pinErrorText ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={pinErrorText}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setPinErrorText(!pinErrorText);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Pin doesn't match!</Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setPinErrorText(!pinErrorText)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
+
+      <SafeAreaView>
+        {pinExist ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={pinExist}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setPinExist(!pinExist);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Pin doesn't match!</Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setPinExist(!pinExist)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
       <Button color="#0d1117" title="Change pin" onPress={handlerequest} />
       <StatusBar style="auto" />
     </SafeAreaView>

@@ -20,6 +20,9 @@ const send = ({ navigation }) => {
   const [amount, setAmount] = useState([]);
   const [account_name, setAccount_name] = useState([]);
   const [amountErrorText, setAmountErrorText] = useState(false);
+
+  const [accountErrorText, setAccountErrorText] = useState(false);
+  const [accountErrorText2, setAccountErrorText2] = useState(false);
   const [accID, setAccID] = useState([]);
   const [accountName, setAccountName] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,6 +33,13 @@ const send = ({ navigation }) => {
     setAmountErrorText((current) => !current);
   };
 
+  const showErrorTextAcc = () => {
+    setAccountErrorText((current) => !current);
+  };
+
+  const showErrorTextAcc2 = () => {
+    setAccountErrorText2((current) => !current);
+  };
   //👇️ modal state
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,6 +53,14 @@ const send = ({ navigation }) => {
     });
   };
   const handlerequest = () => {
+    if (account_name == route.params.accountName) {
+      return showErrorTextAcc();
+    }
+
+    if (amount == null || amount > route.params.balance || amount == 0) {
+      showErrorText();
+    }
+
     return fetch(
       `https://localhost:7027/api/account/send?id=${route.params.id3}&amount=${amount}&account_name=${account_name}`,
       {
@@ -60,7 +78,7 @@ const send = ({ navigation }) => {
           showModal();
         } else {
           console.log(response);
-          showErrorText();
+          showErrorTextAcc2();
         }
       })
 
@@ -176,6 +194,37 @@ const send = ({ navigation }) => {
         maxLength={10000}
       />
 
+      {accountErrorText ? (
+        <Text style={styles.errorMsg}>Wrong Destination</Text>
+      ) : null}
+      <SafeAreaView>
+        {accountErrorText2 ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={accountErrorText2}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setAccountErrorText2(!accountErrorText2);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  That destination is unavailable
+                </Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setAccountErrorText2(!accountErrorText2)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
+
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Enter the amount:
       </Text>
@@ -200,6 +249,7 @@ const send = ({ navigation }) => {
       {amountErrorText ? (
         <Text style={styles.errorMsg}>You don't have that amount</Text>
       ) : null}
+
       <View style={styles.hapsira}>
         <Button
           touchSoundDisabled

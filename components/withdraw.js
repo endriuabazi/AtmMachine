@@ -123,9 +123,32 @@ const withdraw = ({ navigation }) => {
         keyboardType="numeric"
         maxLength={10000}
       />
-      {amountErrorText ? (
-        <Text style={styles.errorMsg}>You don't have that amount</Text>
-      ) : null}
+
+      <SafeAreaView>
+        {amountErrorText ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={amountErrorText}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setAmountErrorText(!amountErrorText);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Incorrect amount!</Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setAmountErrorText(!amountErrorText)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
       <View style={styles.hapsira}>
         <Button
           touchSoundDisabled

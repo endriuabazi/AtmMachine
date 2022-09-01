@@ -13,14 +13,32 @@ import {
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import login from "./login";
+
 const editProfile = ({ navigation }) => {
+  useEffect(() => {
+    fetch(
+      `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.id3}`
+    )
+      .then((json) => {
+        setOldAdd(json.address);
+        setOldEmail(json.email);
+        setOldPhone(json.client_phone);
+        setOldUsername(json.username);
+
+        // setDescription(json.description);
+      })
+
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, []);
+
   //👇️ const [data, setData] = useState([]);
-  const [phone, setPhone] = useState(null);
+  const [phone, setPhone] = useState(oldphone);
   const route = useRoute();
   const [loading, setLoading] = useState(true);
-  const [address, setAdd] = useState(null);
-  const [usernameValue, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [address, setAdd] = useState(oldaddress);
+  const [usernameValue, setUsername] = useState(oldusernameValue);
+  const [email, setEmail] = useState(oldemail);
 
   //👇️ modal state
 
@@ -43,6 +61,10 @@ const editProfile = ({ navigation }) => {
 
   //👇️ main function
   const handlerequest = () => {
+    if (usernameValue == null) {
+      return showErrorModal();
+    }
+
     return fetch(
       `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.id3}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
       {
@@ -70,22 +92,6 @@ const editProfile = ({ navigation }) => {
         console.error(error);
       });
   };
-  useEffect(() => {
-    fetch(
-      `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.id3}`
-    )
-      .then((json) => {
-        setOldAdd(json.address);
-        setOldEmail(json.email);
-        setOldPhone(json.client_phone);
-        setOldUsername(json.username);
-
-        // setDescription(json.description);
-      })
-      .then((json) => setData(json))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, []);
 
   return (
     <SafeAreaView style={styles.pinContainer}>
@@ -126,10 +132,10 @@ const editProfile = ({ navigation }) => {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
+            visible={errormodalVisible}
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
-              setModalVisible(!modalVisible);
+              seterrorModalVisible(!errormodalVisible);
             }}
           >
             <View style={styles.centeredView}>
@@ -141,7 +147,7 @@ const editProfile = ({ navigation }) => {
                   touchSoundDisabled
                   color="#0d1117"
                   title="Close"
-                  onPress={() => setModalVisible(!modalVisible)}
+                  onPress={() => seterrorModalVisible(!errormodalVisible)}
                 />
               </View>
             </View>
@@ -155,24 +161,24 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="username"
           placeholderTextColor="#0d1117"
-          onChangeText={(value) => setUsername(value)}
           defaultValue={oldusernameValue}
+          onChangeText={(value) => setUsername(value)}
         />
         <Text style={styles.text1}>Please enter your new address!</Text>
         <TextInput
           style={styles.pininput}
           placeholder="address"
           placeholderTextColor="#0d1117"
-          onChangeText={(value) => setAdd(value)}
           defaultValue={oldaddress}
+          onChangeText={(value) => setAdd(value)}
         />
         <Text style={styles.text1}>Please enter your new phone!</Text>
         <TextInput
           style={styles.pininput}
           placeholder="phone"
           placeholderTextColor="#0d1117"
-          onChangeText={(value) => setPhone(value)}
           defaultValue={oldphone}
+          onChangeText={(value) => setPhone(value)}
         />
 
         <Text style={styles.text1}>Please enter your new email !</Text>
@@ -180,8 +186,8 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="email"
           placeholderTextColor="#0d1117"
-          onChangeText={(value) => setEmail(value)}
           defaultValue={oldemail}
+          onChangeText={(value) => setEmail(value)}
         />
       </SafeAreaView>
 
