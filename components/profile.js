@@ -8,20 +8,57 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
+  Modal,
+  Alert,
+  View,
 } from "react-native";
 
 const profile = ({ navigation }) => {
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
   const route = useRoute();
   const [accID, setAccID] = useState([]);
 
+  //👇️ clients here
+
+  const [clientUsername, setClientUsername] = useState([]);
+  const [clientAddress, setClientAddress] = useState([]);
+  const [clietPhone, setClientPhone] = useState([]);
+  const [clientEmail, setClientEmail] = useState([]);
+
+  //👇️ modal when show profile
+
+  const [modalVisible, setModalVisible] = useState(false);
+  // const showModal = () => {
+  //   setModalVisible((current) => !current);
+  // };
+
   var username = route.params.usernameValue;
+
+  useEffect(() => {
+    fetch(
+      `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.usernameValue}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        setClientUsername(json[0].username);
+        console.log("json", json);
+
+        setClientPhone(json[0].client_phone);
+        setClientEmail(json[0].email);
+        setClientAddress(json[0].address);
+        console.log("respose", response);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, []);
+
   useEffect(() => {
     fetch(
       `https://localhost:7027/api/client/GetAccountsFromClients?username=${route.params.usernameValue}`
     )
       .then((response) => response.json())
+
       .then((json) => {
         setAccID(json.account_id);
 
@@ -41,7 +78,7 @@ const profile = ({ navigation }) => {
         />
       </SafeAreaView>
 
-      <Text style={{ color: "white", fontSize: 30, top: -100 }}>
+      <Text style={{ color: "white", fontSize: 30, top: -120 }}>
         Welcome{" "}
         <Text
           style={{
@@ -54,6 +91,43 @@ const profile = ({ navigation }) => {
           {route.params.usernameValue}
         </Text>
       </Text>
+      <Button
+        touchSoundDisabled
+        color="#0d1117"
+        title="Show Profile"
+        onPress={() => setModalVisible(!modalVisible)}
+      />
+      <SafeAreaView>
+        {modalVisible ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  Username: {route.params.usernameValue}
+                </Text>
+                <Text style={styles.modalText}>Email: {clientEmail}</Text>
+                <Text style={styles.modalText}>Phone: {clietPhone}</Text>
+                <Text style={styles.modalText}>Address: {clientAddress}</Text>
+
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setModalVisible(!modalVisible)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
 
       <Text style={{ color: "white", fontSize: 18, padding: 20 }}>
         If you want to make a transaction , please tap your desired account to
@@ -74,7 +148,7 @@ const profile = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("actions", {
                   key: account.account_id,
-                  username: us,
+                  username: username,
                   account_name: account.account_name,
                 });
               }}
@@ -94,7 +168,10 @@ const profile = ({ navigation }) => {
           title="Edit Profile"
           onPress={() => {
             navigation.navigate("editProfile", {
-              id3: username,
+              username: username,
+              email: clientEmail,
+              address: clientAddress,
+              phone: clietPhone,
             });
           }}
         />
@@ -146,6 +223,36 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomEndRadius: 15,
     marginBottom: 5,
+  },
+  modalView: {
+    margin: 20,
+    width: -90,
+    backgroundColor: "#c9d1d9",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  errorMsg: {
+    color: "#B00020",
   },
 });
 

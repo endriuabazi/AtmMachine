@@ -15,30 +15,26 @@ import { useRoute } from "@react-navigation/native";
 import login from "./login";
 
 const editProfile = ({ navigation }) => {
-  useEffect(() => {
-    fetch(
-      `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.id3}`
-    )
-      .then((json) => {
-        setOldAdd(json.address);
-        setOldEmail(json.email);
-        setOldPhone(json.client_phone);
-        setOldUsername(json.username);
+  // useEffect(() => {
+  //   fetch(
+  //     `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.username}`
+  //   )
+  //     .then((json) => {
+  //       // setDescription(json.description);
+  //     })
 
-        // setDescription(json.description);
-      })
-
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, []);
+  //     .catch((error) => console.log(error))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   //👇️ const [data, setData] = useState([]);
-  const [phone, setPhone] = useState(oldphone);
+
   const route = useRoute();
   const [loading, setLoading] = useState(true);
-  const [address, setAdd] = useState(oldaddress);
-  const [usernameValue, setUsername] = useState(oldusernameValue);
-  const [email, setEmail] = useState(oldemail);
+  const [phone, setPhone] = useState(route.params.phone);
+  const [address, setAdd] = useState(route.params.address);
+  const [usernameValue, setUsername] = useState(route.params.username);
+  const [email, setEmail] = useState(route.params.email);
 
   //👇️ modal state
 
@@ -46,10 +42,10 @@ const editProfile = ({ navigation }) => {
   const [errormodalVisible, seterrorModalVisible] = useState(false);
 
   //👇️ display old data
-  const [oldphone, setOldPhone] = useState([]);
-  const [oldaddress, setOldAdd] = useState([]);
-  const [oldusernameValue, setOldUsername] = useState([]);
-  const [oldemail, setOldEmail] = useState([]);
+  // const [oldphone, setOldPhone] = useState([]);
+  // const [oldaddress, setOldAdd] = useState([]);
+  // const [oldusernameValue, setOldUsername] = useState([]);
+  // const [oldemail, setOldEmail] = useState([]);
 
   //👇️ modal function hide and show
   const showModal = () => {
@@ -61,12 +57,8 @@ const editProfile = ({ navigation }) => {
 
   //👇️ main function
   const handlerequest = () => {
-    if (usernameValue == null) {
-      return showErrorModal();
-    }
-
     return fetch(
-      `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.id3}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
+      `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.username}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
       {
         method: "PUT",
         headers: {
@@ -113,7 +105,7 @@ const editProfile = ({ navigation }) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>
-                  Profile edited successfully
+                  Profile edited successfully!
                 </Text>
                 <Button
                   touchSoundDisabled
@@ -161,7 +153,7 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="username"
           placeholderTextColor="#0d1117"
-          defaultValue={oldusernameValue}
+          defaultValue={route.params.username}
           onChangeText={(value) => setUsername(value)}
         />
         <Text style={styles.text1}>Please enter your new address!</Text>
@@ -169,7 +161,7 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="address"
           placeholderTextColor="#0d1117"
-          defaultValue={oldaddress}
+          defaultValue={route.params.address}
           onChangeText={(value) => setAdd(value)}
         />
         <Text style={styles.text1}>Please enter your new phone!</Text>
@@ -177,7 +169,7 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="phone"
           placeholderTextColor="#0d1117"
-          defaultValue={oldphone}
+          defaultValue={route.params.phone}
           onChangeText={(value) => setPhone(value)}
         />
 
@@ -186,7 +178,7 @@ const editProfile = ({ navigation }) => {
           style={styles.pininput}
           placeholder="email"
           placeholderTextColor="#0d1117"
-          defaultValue={oldemail}
+          defaultValue={route.params.email}
           onChangeText={(value) => setEmail(value)}
         />
       </SafeAreaView>
