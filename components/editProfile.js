@@ -10,23 +10,13 @@ import {
   Modal,
   Alert,
   View,
+  Touchable,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import login from "./login";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const editProfile = ({ navigation }) => {
-  // useEffect(() => {
-  //   fetch(
-  //     `https://localhost:7027/api/client/GetClientByUsername?username=${route.params.username}`
-  //   )
-  //     .then((json) => {
-  //       // setDescription(json.description);
-  //     })
-
-  //     .catch((error) => console.log(error))
-  //     .finally(() => setLoading(false));
-  // }, []);
-
   //👇️ const [data, setData] = useState([]);
 
   const route = useRoute();
@@ -41,12 +31,6 @@ const editProfile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [errormodalVisible, seterrorModalVisible] = useState(false);
 
-  //👇️ display old data
-  // const [oldphone, setOldPhone] = useState([]);
-  // const [oldaddress, setOldAdd] = useState([]);
-  // const [oldusernameValue, setOldUsername] = useState([]);
-  // const [oldemail, setOldEmail] = useState([]);
-
   //👇️ modal function hide and show
   const showModal = () => {
     setModalVisible((current) => !current);
@@ -57,8 +41,12 @@ const editProfile = ({ navigation }) => {
 
   //👇️ main function
   const handlerequest = () => {
+    if (usernameValue == null) {
+      return showErrorModal();
+    }
+
     return fetch(
-      `https://localhost:7027/api/client/editProfile?oldUsername=${route.params.username}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
+      `https://localhost:7027/api/client/editProfile?id=${route.params.id}&username=${usernameValue}&address=${address}&phone=${phone}&email=${email}`,
       {
         method: "PUT",
         headers: {
@@ -87,10 +75,17 @@ const editProfile = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image
-        style={{ top: 10, width: 335, height: 82 }}
-        source={require("../assets/emblem.png")}
-      />
+      <TouchableOpacity
+        nextFocusForward={1}
+        onPress={() => {
+          navigation.push("login");
+        }}
+      >
+        <Image
+          style={{ top: 10, width: 335, height: 82 }}
+          source={require("../assets/emblem.png")}
+        />
+      </TouchableOpacity>
       <SafeAreaView>
         {modalVisible ? (
           <Modal

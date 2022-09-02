@@ -17,10 +17,10 @@ const profile = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const route = useRoute();
-  const [accID, setAccID] = useState([]);
 
   //👇️ clients here
 
+  const [clientId, setClientId] = useState([]);
   const [clientUsername, setClientUsername] = useState([]);
   const [clientAddress, setClientAddress] = useState([]);
   const [clietPhone, setClientPhone] = useState([]);
@@ -29,9 +29,6 @@ const profile = ({ navigation }) => {
   //👇️ modal when show profile
 
   const [modalVisible, setModalVisible] = useState(false);
-  // const showModal = () => {
-  //   setModalVisible((current) => !current);
-  // };
 
   var username = route.params.usernameValue;
 
@@ -43,7 +40,7 @@ const profile = ({ navigation }) => {
       .then((json) => {
         setClientUsername(json[0].username);
         console.log("json", json);
-
+        setClientId(json[0].client_id);
         setClientPhone(json[0].client_phone);
         setClientEmail(json[0].email);
         setClientAddress(json[0].address);
@@ -60,8 +57,6 @@ const profile = ({ navigation }) => {
       .then((response) => response.json())
 
       .then((json) => {
-        setAccID(json.account_id);
-
         setData(json);
       })
       .catch((error) => console.log(error))
@@ -72,10 +67,18 @@ const profile = ({ navigation }) => {
     <SafeAreaView style={styles.pinContainer}>
       <SafeAreaView>
         {/* Emblema */}
-        <Image
-          style={{ top: -50, width: 335, height: 82 }}
-          source={require("../assets/emblem.png")}
-        />
+
+        <TouchableOpacity
+          nextFocusForward={1}
+          onPress={() => {
+            navigation.push("login");
+          }}
+        >
+          <Image
+            style={{ top: -50, width: 335, height: 82 }}
+            source={require("../assets/emblem.png")}
+          />
+        </TouchableOpacity>
       </SafeAreaView>
 
       <Text style={{ color: "white", fontSize: 30, top: -120 }}>
@@ -88,7 +91,7 @@ const profile = ({ navigation }) => {
             textTransform: "capitalize",
           }}
         >
-          {route.params.usernameValue}
+          {clientUsername}
         </Text>
       </Text>
       <Button
@@ -111,11 +114,19 @@ const profile = ({ navigation }) => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>
-                  Username: {route.params.usernameValue}
+                  Username:{" "}
+                  <Text style={styles.modalText2}>{clientUsername}</Text>
                 </Text>
-                <Text style={styles.modalText}>Email: {clientEmail}</Text>
-                <Text style={styles.modalText}>Phone: {clietPhone}</Text>
-                <Text style={styles.modalText}>Address: {clientAddress}</Text>
+                <Text style={styles.modalText}>
+                  Email: <Text style={styles.modalText2}>{clientEmail}</Text>
+                </Text>
+                <Text style={styles.modalText}>
+                  Phone: <Text style={styles.modalText2}>{clietPhone}</Text>
+                </Text>
+                <Text style={styles.modalText}>
+                  Address:{" "}
+                  <Text style={styles.modalText2}>{clientAddress}</Text>
+                </Text>
 
                 <Button
                   touchSoundDisabled
@@ -129,7 +140,14 @@ const profile = ({ navigation }) => {
         ) : null}
       </SafeAreaView>
 
-      <Text style={{ color: "white", fontSize: 18, padding: 20 }}>
+      <Text
+        style={{
+          color: "white",
+          fontSize: 18,
+          padding: 18,
+          textAlign: "center",
+        }}
+      >
         If you want to make a transaction , please tap your desired account to
         proceed!
       </Text>
@@ -172,6 +190,7 @@ const profile = ({ navigation }) => {
               email: clientEmail,
               address: clientAddress,
               phone: clietPhone,
+              id: clientId,
             });
           }}
         />
@@ -183,7 +202,8 @@ const profile = ({ navigation }) => {
             title="Change Pin"
             onPress={() => {
               navigation.navigate("changePin", {
-                id2: username,
+                // id2: username,
+                id: clientId,
               });
             }}
           />
@@ -249,6 +269,15 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+    fontSize: 18,
+    color: "#0d1117",
+  },
+
+  modalText2: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 22,
+    color: "#5913f4",
   },
 
   errorMsg: {

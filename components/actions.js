@@ -39,10 +39,18 @@ const actions = ({ navigation }) => {
     <SafeAreaView style={styles.pinContainer}>
       <SafeAreaView>
         {/* Emblema */}
-        <Image
-          style={{ top: -50, width: 335, height: 82 }}
-          source={require("../assets/emblem.png")}
-        />
+
+        <TouchableOpacity
+          nextFocusForward={1}
+          onPress={() => {
+            navigation.push("login");
+          }}
+        >
+          <Image
+            style={{ top: -50, width: 335, height: 82 }}
+            source={require("../assets/emblem.png")}
+          />
+        </TouchableOpacity>
       </SafeAreaView>
 
       {loading ? (
@@ -133,10 +141,14 @@ const actions = ({ navigation }) => {
           nextFocusForward={1}
           style={styles.list}
           onPress={() => {
-            navigation.push("login");
+            navigation.navigate("profile", {
+              usernameValue: username,
+            });
           }}
         >
-          <Text style={{ color: "white", fontSize: 18 }}>Exit</Text>
+          <Text style={{ color: "white", fontSize: 18 }}>
+            Go back to profile
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>

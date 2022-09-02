@@ -44,7 +44,7 @@ const changePin = ({ navigation }) => {
     }
 
     return fetch(
-      `https://localhost:7027/api/client/changePin?username=${route.params.id2}&pin1=${pinValue}&pin2=${pinValue2}`,
+      `https://localhost:7027/api/client/changePin?id=${route.params.id}&pin1=${pinValue}&pin2=${pinValue2}`,
       {
         method: "PUT",
         headers: {

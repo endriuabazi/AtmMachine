@@ -195,9 +195,9 @@ const send = ({ navigation }) => {
       />
 
       {accountErrorText ? (
-        <Text style={styles.errorMsg}>Wrong Destination</Text>
+        <Text style={styles.errorMsg}>Wrong Account</Text>
       ) : null}
-      <SafeAreaView>
+      {/* <SafeAreaView>
         {accountErrorText2 ? (
           <Modal
             animationType="slide"
@@ -223,7 +223,7 @@ const send = ({ navigation }) => {
             </View>
           </Modal>
         ) : null}
-      </SafeAreaView>
+      </SafeAreaView> */}
 
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Enter the amount:
