@@ -81,7 +81,7 @@ const profile = ({ navigation }) => {
         </TouchableOpacity>
       </SafeAreaView>
 
-      <Text style={{ color: "white", fontSize: 30, top: -120 }}>
+      <Text style={{ color: "white", fontSize: 30, top: -150 }}>
         Welcome{" "}
         <Text
           style={{
@@ -103,7 +103,7 @@ const profile = ({ navigation }) => {
       <SafeAreaView>
         {modalVisible ? (
           <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
@@ -186,7 +186,7 @@ const profile = ({ navigation }) => {
           title="Edit Profile"
           onPress={() => {
             navigation.navigate("editProfile", {
-              username: username,
+              username: clientUsername,
               email: clientEmail,
               address: clientAddress,
               phone: clietPhone,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   modalText2: {
     marginBottom: 15,
     textAlign: "center",
-    fontSize: 22,
+    fontSize: 19,
     color: "#5913f4",
   },
 

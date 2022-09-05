@@ -30,18 +30,18 @@ const transaction = () => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <ScrollView style={styles.scrrollstyle}>
-        <SafeAreaView>
-          {/* Emblema */}
-          <Image
-            style={{ top: -50, width: 335, height: 82 }}
-            source={require("../assets/emblem.png")}
-          />
-        </SafeAreaView>
+      <SafeAreaView>
+        {/* Emblema */}
+        <Image
+          style={{ top: -30, width: 335, height: 82 }}
+          source={require("../assets/emblem.png")}
+        />
+      </SafeAreaView>
 
-        <Text style={{ color: "white", fontSize: 25 }}>History:</Text>
+      <Text style={{ color: "white", fontSize: 25 }}>History:</Text>
 
-        <SafeAreaView>
+      <SafeAreaView>
+        <ScrollView style={styles.scrrollstyle}>
           {loading ? (
             <ActivityIndicator />
           ) : (
@@ -62,8 +62,8 @@ const transaction = () => {
               </TouchableOpacity>
             ))
           )}
-        </SafeAreaView>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </SafeAreaView>
   );
 };

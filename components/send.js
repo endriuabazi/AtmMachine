@@ -13,6 +13,7 @@ import {
   Modal,
   Alert,
 } from "react-native";
+
 import { useRoute } from "@react-navigation/native";
 
 const send = ({ navigation }) => {
@@ -53,7 +54,7 @@ const send = ({ navigation }) => {
     });
   };
   const handlerequest = () => {
-    if (account_name == route.params.accountName) {
+    if (account_name == route.params.accountName || account_name == null) {
       return showErrorTextAcc();
     }
 
@@ -78,7 +79,7 @@ const send = ({ navigation }) => {
           showModal();
         } else {
           console.log(response);
-          showErrorTextAcc2();
+          showErrorTextAcc();
         }
       })
 
@@ -138,8 +139,8 @@ const send = ({ navigation }) => {
         You want to send money? Here is the right place to do it!
       </Text>
       <Image
-        style={{ width: 150, height: 150, top: 13 }}
-        source={require("../assets/istockphoto-929921700-170667a.jpg")}
+        style={{ width: 200, height: 150, top: 13 }}
+        source={require("../assets/transfer.jpg")}
       />
       <Text style={{ color: "white", fontSize: 20, top: -15, padding: 22 }}>
         Enter the destination:
@@ -194,9 +195,31 @@ const send = ({ navigation }) => {
         maxLength={10000}
       />
 
-      {accountErrorText ? (
-        <Text style={styles.errorMsg}>Wrong Account</Text>
-      ) : null}
+      <SafeAreaView>
+        {accountErrorText ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={accountErrorText}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setAccountErrorText(!accountErrorText);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Invalid Account!</Text>
+                <Button
+                  touchSoundDisabled
+                  color="#0d1117"
+                  title="Close"
+                  onPress={() => setAccountErrorText(!accountErrorText)}
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
       {/* <SafeAreaView>
         {accountErrorText2 ? (
           <Modal
@@ -210,9 +233,7 @@ const send = ({ navigation }) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  That destination is unavailable
-                </Text>
+                <Text style={styles.modalText}>Check account again!</Text>
                 <Button
                   touchSoundDisabled
                   color="#0d1117"

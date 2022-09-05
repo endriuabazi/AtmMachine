@@ -1,7 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-
 import {
   StyleSheet,
   Text,
