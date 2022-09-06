@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
@@ -66,10 +67,17 @@ const withdraw = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image
-        style={{ top: 10, width: 335, height: 82 }}
-        source={require("../assets/emblem.png")}
-      />
+      <TouchableOpacity
+        nextFocusForward={1}
+        onPress={() => {
+          navigation.push("login");
+        }}
+      >
+        <Image
+          style={{ top: 10, width: 335, height: 82 }}
+          source={require("../assets/emblem.png")}
+        />
+      </TouchableOpacity>
       <SafeAreaView>
         {modalVisible ? (
           <Modal

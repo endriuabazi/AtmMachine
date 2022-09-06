@@ -32,10 +32,17 @@ const transaction = () => {
     <SafeAreaView style={styles.pinContainer}>
       <SafeAreaView>
         {/* Emblema */}
-        <Image
-          style={{ top: -30, width: 335, height: 82 }}
-          source={require("../assets/emblem.png")}
-        />
+        <TouchableOpacity
+          nextFocusForward={1}
+          onPress={() => {
+            navigation.push("login");
+          }}
+        >
+          <Image
+            style={{ top: -50, width: 335, height: 82 }}
+            source={require("../assets/emblem.png")}
+          />
+        </TouchableOpacity>
       </SafeAreaView>
 
       <Text style={{ color: "white", fontSize: 25 }}>History:</Text>

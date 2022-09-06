@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   Modal,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 
 import { useRoute } from "@react-navigation/native";
@@ -56,9 +57,7 @@ const send = ({ navigation }) => {
   const handlerequest = () => {
     if (account_name == route.params.accountName || account_name == null) {
       return showErrorTextAcc();
-    }
-
-    if (amount == null || amount > route.params.balance || amount == 0) {
+    } else if (amount == null || amount > route.params.balance || amount == 0) {
       showErrorText();
     }
 
@@ -97,6 +96,7 @@ const send = ({ navigation }) => {
       .then((response) => response.json())
       .then((json) => {
         setAccID(json.account_id);
+        console.log("json", json);
         setAccountName(json.account_name);
         setData(json);
       })
@@ -106,10 +106,18 @@ const send = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.pinContainer}>
-      <Image
-        style={{ top: -50, width: 335, height: 82 }}
-        source={require("../assets/emblem.png")}
-      />
+      <TouchableOpacity
+        nextFocusForward={1}
+        onPress={() => {
+          navigation.push("login");
+        }}
+      >
+        <Image
+          style={{ top: -50, width: 335, height: 82 }}
+          source={require("../assets/emblem.png")}
+        />
+      </TouchableOpacity>
+
       <SafeAreaView>
         {modalVisible ? (
           <Modal
